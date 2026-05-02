@@ -4,20 +4,6 @@ __lua__
 #include system.lua
 #include behavior.lua
 
-function update_sidle(
-	sidle,body
-)
-		local dur = 1
-	
-		if time() - sidle.t0 > dur 
-		then
-		 sidle.t0 = time()
-		 sidle.dx *= -1
-		end
-
-		body.vel_x = sidle.dx
-end
-
 function draw_anim(a,body)
 	local n, i, s, f
 	n = #a.frames
@@ -48,32 +34,17 @@ end
 
 skeleton = {
 	body = body_new(60,60),
-	sidle = sidle_new(1),
 	throw = { t0 = 0 },
 	anim = {
 		frames = {1,2},
 		fps = 0.5
 	},
-	update = function(s,entities)
-		local body = s.body
-		local throw = s.throw
-		local sidle = s.sidle
-	
-		-- throw bone
-		local dur = 2
-		if time() - throw.t0 > dur then
-			throw.t0 = time()
-			add(
-				entities,
-				bone_new(
-					body.x,body.y,body.facing
-				)
-			)
-		end
-		
-	
-		update_sidle(sidle,body)
-	end,
+	update = parallel_behavior_new({
+		sidle_behavior_new(),
+		timed_behavior_new(2, function(me, entities)
+			add(entities, bone_new(me.body.x, me.body.y, me.body.facing))
+		end)
+	}),
 	draw = function(s)
 		draw_anim(s.anim,s.body)
 	end
@@ -81,14 +52,11 @@ skeleton = {
 
 zombie = {
 	body = body_new(60,60),
-	sidle = sidle_new(1),
 	anim = {
 		frames = {5,6},
 		fps = 0.5
 	},
-	update = function(s)
-		update_sidle(s.sidle,s.body)
-	end,
+	update = sidle_behavior_new(),
 	draw = function(s)
 		draw_anim(s.anim,s.body)
 	end
@@ -137,7 +105,7 @@ player = {
 	end
 }
 
-entities = { player }
+entities = { skeleton }
 
 function _init()
 end

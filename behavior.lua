@@ -1,19 +1,36 @@
--- #region sidle
-function sidle_new(dx)
-    return {
-        t0 = 0,
-        dx = 1
-    }
+function timed_behavior_new(dur, behavior)
+    local t0 = 0
+
+    return function(me, entities)
+        if time() - t0 > dur then
+            t0 = time()
+            return behavior(me, entities)
+        end
+    end
 end
 
-function update_sidle(sidle, body)
+function parallel_behavior_new(behaviors)
+    return function(me, entities)
+        for b in all(behaviors) do
+            b(me, entities)
+        end
+    end
+end
+
+function sidle_behavior_new()
+    local t0 = 0
+    local dx = 1
     local dur = 1
 
-    if time() - sidle.t0 > dur then
-        sidle.t0 = time()
-        sidle.dx *= -1
-    end
+    return function(me)
+        local body = me.body
 
-    body.vel_x = sidle.dx
+        if time() - t0 > dur then
+            t0 = time()
+            dx *= -1
+        end
+
+        body.vel_x = dx
+    end
 end
--- #endregion
+
