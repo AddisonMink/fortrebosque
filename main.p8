@@ -1,32 +1,8 @@
 pico-8 cartridge // http://www.pico-8.com
 version 43
 __lua__
-function body_new(
-x,y,
-vel_x,vel_y,
-facing,
-solid
-)
-	return {
-		x = x,
-		y = y,
-		vel_x = vel_x or 0,
-		vel_y = vel_y or 0,
-		facing = facing or 1,
-		solid = solid
-	}
-end
-
-function update_body(body)
-	local g = 0.2
-	
-	if body.solid then
-		body.vel_y += g
-	end
-
-	body.x += body.vel_x
-	body.y += body.vel_y
-end
+#include system.lua
+#include behavior.lua
 
 function update_sidle(
 	sidle,body
@@ -72,10 +48,7 @@ end
 
 skeleton = {
 	body = body_new(60,60),
-	sidle = {
-		t0 = 0,
-		dx = 1
-	},
+	sidle = sidle_new(1),
 	throw = { t0 = 0 },
 	anim = {
 		frames = {1,2},
@@ -108,10 +81,7 @@ skeleton = {
 
 zombie = {
 	body = body_new(60,60),
-	sidle = {
-		t0 = 0,
-		dx = 1
-	},
+	sidle = sidle_new(1),
 	anim = {
 		frames = {5,6},
 		fps = 0.5
