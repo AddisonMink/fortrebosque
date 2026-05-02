@@ -7,7 +7,7 @@ __lua__
 function draw_anim(a,body)
 	local n, i, s, f
 	n = #a.frames
-	i = time() * 1/a.fps
+	i = time() * a.fps
 	i = flr(i) % n + 1
 	s = a.frames[i]
 	f = body.x > 1
@@ -34,15 +34,21 @@ end
 
 skeleton = {
 	body = body_new(60,60),
-	throw = { t0 = 0 },
 	anim = {
 		frames = {1,2},
 		fps = 0.5
 	},
-	update = parallel_behavior_new({
-		sidle_behavior_new(),
-		timed_behavior_new(2, function(me, entities)
+	update = state_machine_behavior_new("sidle", {
+		sidle = sequence_behavior_new({
+			sidle_behavior_new(),
+			timed_behavior_new(2, function(me, entities)
+				me.body.vel_x = 0
+				return "throw"
+			end)
+		}),
+		throw = timed_behavior_new(0.25, function(me, entities)
 			add(entities, bone_new(me.body.x, me.body.y, me.body.facing))
+			return "sidle"
 		end)
 	}),
 	draw = function(s)
@@ -63,32 +69,29 @@ zombie = {
 }
 
 bat = {
-	body = body_new(60,60,1),
-	anim = {
-		frames = {7,8},
-		fps = 0.5
-	},
-	swoop = {
-		y0 = nil
-	},
-	update = function(s)
-		local body = s.body
-		local swoop = s.swoop
-		local max_dy = 24
-		
-		if not swoop.y0 then
-			swoop.y0 = body.y
+	body = body_new(60,60),
+	anim = { frames = {9}, fps = 1},
+	fly_anim = { frames = {7,8}, fps = 6 },
+	update = state_machine_behavior_new("hang",{
+		hang = timed_behavior_new(2, function(me, entities)
+			me.anim = me.fly_anim
+			me.body.vel_x = 1
+			return "fly"
+		end),
+		fly = function(me)
+			local y0 = 60
+			local max_dy = 16
+			local dy = me.body.y - y0
+
+			if dy < max_dy then
+				me.body.vel_y += 0.2
+			elseif dy > max_dy then
+				me.body.vel_y -= 0.2
+			else
+				me.body.vel_y = 0
+			end
 		end
-		
-		local dy = body.y - swoop.y0
-		if abs(dy) < max_dy then
-			local vy = body.vel_y
-			vy = max(1,vy + 0.1)
-			body.vel_y = vy
-		else
-			body.vel_y = 0
-		end
-	end,
+	}),
 	draw = function(s)
 		draw_anim(s.anim,s.body)
 	end
@@ -105,7 +108,7 @@ player = {
 	end
 }
 
-entities = { skeleton }
+entities = { bat }
 
 function _init()
 end
