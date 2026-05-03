@@ -50,9 +50,9 @@ function _draw()
 	map()
 	
 	for e in all(entities) do
-	 if e.draw then
-	 	e.draw(e)
-	 end
+		if e.anim then
+			draw_anim(e.anim, e.body, e.hitbox)
+		end
 	end
 
 	local player = entities[1]

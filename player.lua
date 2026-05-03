@@ -22,10 +22,7 @@ function player_behavior_new()
                 { body = player_body, offset_x = offset_x, offset_y = 0 }
             ),
             hurtbox = hurtbox_new("enemy", 1),
-            anim = weapon_anim,
-            draw = function(me)
-                draw_anim(me.anim, me.body)
-            end
+            anim = weapon_anim
         }
     end
 
@@ -123,8 +120,5 @@ player = {
     body = body_new(16, 48, 0, 0, 1, true),
     hitbox = hitbox_new("player", 3),
     anim = { frames = { 16 }, fps = 1 },
-    update = player_behavior_new(),
-    draw = function(me)
-        draw_anim(me.anim, me.body)
-    end
+    update = player_behavior_new()
 }

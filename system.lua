@@ -160,8 +160,15 @@ end
 -- #endregion
 
 -- #region animation
-function draw_anim(a, body)
+function draw_anim(a, body, hitbox)
     local n, i, s, f
+    local flashing = hitbox and hitbox.invuln_timer
+    local flash = flashing and flr(time() * 10) % 2 == 0
+
+    if flash then
+        return
+    end
+
     n = #a.frames
     i = time() * a.fps
     i = flr(i) % n + 1
