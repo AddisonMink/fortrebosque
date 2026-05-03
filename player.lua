@@ -21,7 +21,7 @@ function player_behavior_new()
                 0, 0, 0, 0, player_body.facing, false,
                 { body = player_body, offset_x = offset_x, offset_y = 0 }
             ),
-            hurtbox = hurtbox_new("enemy", 1),
+            hurtbox = hurtbox_new("enemy", 1, { x = 0, y = 2, w = 8, h = 4 }),
             anim = weapon_anim
         }
     end

@@ -31,7 +31,7 @@ function zombie_behavior_new()
                 me.body.vel_x = speed * me.body.facing
                 me.anim = walk_anim
                 me.hitbox = hitbox_new("enemy", 2)
-                me.hurtbox = hurtbox_new("player", 1)
+                me.hurtbox = hurtbox_new("player", 1, { x = 2, y = 4, w = 4, h = 4 })
                 return "walk"
             end
         end,

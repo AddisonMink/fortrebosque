@@ -22,3 +22,10 @@ function state_machine_new(initial_state, state_behavior_map)
         end
     end
 end
+
+function rects_overlap(rect1, rect2)
+    return rect1.x < rect2.x + rect2.w
+            and rect1.x + rect1.w > rect2.x
+            and rect1.y < rect2.y + rect2.h
+            and rect1.y + rect1.h > rect2.y
+end
