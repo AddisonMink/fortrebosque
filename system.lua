@@ -1,12 +1,13 @@
 -- #region body
-function body_new(x, y, vel_x, vel_y, facing, solid)
+function body_new(x, y, vel_x, vel_y, facing, solid, pinned_body)
     return {
         x = x,
         y = y,
         vel_x = vel_x or 0,
         vel_y = vel_y or 0,
         facing = facing or 1,
-        solid = solid
+        solid = solid,
+        pinned_body = pinned_body
     }
 end
 
@@ -94,6 +95,13 @@ end
 
 function update_body(body)
     local g = 0.2
+
+    if body.pinned_body then
+        local pinned = body.pinned_body
+        body.x = pinned.body.x + pinned.offset_x
+        body.y = pinned.body.y + pinned.offset_y
+        return
+    end
 
     if body.solid then
         body.vel_y += g

@@ -16,18 +16,38 @@ function player_behavior_new()
     local windup_anim = { frames = { 20 }, fps = 1 }
     local attack_anim = { frames = { 21 }, fps = 1 }
     local jump_anim = { frames = { 19 }, fps = 1 }
+    local weapon_anim = { frames = { 22 }, fps = 1 }
     local jump_vel = -2.1
     local attack_windup_dur = 0.25
     local attack_dur = 0.25
 
+    -- local functions
+    local function weapon_new(player_body)
+        local offset_x = player_body.facing == 1 and 8 or -8
+        local x = player_body.x + offset_x
+        local y = player_body.y
+
+        return {
+            body = body_new(
+                0, 0, 0, 0, player_body.facing, false,
+                { body = player_body, offset_x = offset_x, offset_y = 0 }
+            ),
+            anim = weapon_anim,
+            draw = function(me)
+                draw_anim(me.anim, me.body)
+            end
+        }
+    end
+
     -- state
     local state = "idle"
     local timer = nil
+    local weapon = nil
 
     local state_map = {
         idle = function(me, entities)
             me.body.vel_x = 0
-            
+
             if not me.body.grounded then
                 me.anim = jump_anim
                 return "jump"
@@ -77,6 +97,8 @@ function player_behavior_new()
             if timer() then
                 me.anim = attack_anim
                 timer = timer_new(attack_dur)
+                weapon = weapon_new(me.body)
+                add(entities, weapon)
                 return "attack"
             end
         end,
@@ -85,6 +107,8 @@ function player_behavior_new()
 
             if timer() then
                 me.anim = idle_anim
+                del(entities, weapon)
+                weapon = nil
                 return "idle"
             end
         end,
@@ -97,7 +121,7 @@ function player_behavior_new()
                 timer = timer_new(attack_windup_dur)
                 return "attack_windup"
             elseif btn(0) or btn(1) then
-                local dx = btn(0) and -1 or 1 
+                local dx = btn(0) and -1 or 1
                 me.body.facing = dx
             end
         end
@@ -107,7 +131,7 @@ function player_behavior_new()
 end
 
 player = {
-    body = body_new(16, 16, 0, 0, 1, true),
+    body = body_new(16, 48, 0, 0, 1, true),
     anim = { frames = { 16 }, fps = 1 },
     update = player_behavior_new(),
     draw = function(me)
