@@ -10,6 +10,86 @@ function body_new(x, y, vel_x, vel_y, facing, solid)
     }
 end
 
+function point_would_collide(x, y)
+    local tx, ty = flr(x / 8), flr(y / 8)
+    return fget(mget(tx, ty), 0)
+end
+
+function body_would_collide_y(body, new_y)
+    local left = body.x
+    local right = body.x + 7
+    return point_would_collide(left, new_y)
+            or point_would_collide(right, new_y)
+end
+
+function body_would_collide_x(body, new_x)
+    local top = body.y
+    local bottom = body.y + 7
+    return point_would_collide(new_x, top)
+            or point_would_collide(new_x, bottom)
+end
+
+function _nudge_body_y(body, dy)
+    local offset = dy > 0 and 7 or 0
+
+    if body_would_collide_y(body, body.y + dy + offset) then
+        body.vel_y = 0
+        return true
+    else
+        body.y += dy
+    end
+end
+
+function _nudge_body_x(body, dx)
+    local offset = dx > 0 and 7 or 0
+
+    if body_would_collide_x(body, body.x + dx + offset) then
+        return true
+    else
+        body.x += dx
+    end
+end
+
+function _move_body_y(body)
+    if not body.solid then
+        body.y += body.vel_y
+        return
+    end
+
+    local steps = flr(abs(body.vel_y))
+    local fraction = abs(body.vel_y) - steps
+    local dy = sgn(body.vel_y)
+
+    for i = 1, steps do
+        if _nudge_body_y(body, dy) then
+            return
+        end
+    end
+    if fraction > 0 then
+        _nudge_body_y(body, fraction * dy)
+    end
+end
+
+function _move_body_x(body)
+    if not body.solid then
+        body.x += body.vel_x
+        return
+    end
+
+    local steps = flr(abs(body.vel_x))
+    local fraction = abs(body.vel_x) - steps
+    local dx = sgn(body.vel_x)
+
+    for i = 1, steps do
+        if _nudge_body_x(body, dx) then
+            return
+        end
+    end
+    if fraction > 0 then
+        _nudge_body_x(body, fraction * dx)
+    end
+end
+
 function update_body(body)
     local g = 0.2
 
@@ -17,7 +97,7 @@ function update_body(body)
         body.vel_y += g
     end
 
-    body.x += body.vel_x
-    body.y += body.vel_y
+    _move_body_x(body)
+    _move_body_y(body)
 end
 -- #endregion
