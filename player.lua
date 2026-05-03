@@ -120,6 +120,7 @@ end
 
 player = {
     body = body_new(16, 48, 0, 0, 1, true),
+    hitbox = hitbox_new("player",3,3),
     anim = { frames = { 16 }, fps = 1 },
     update = player_behavior_new(),
     draw = function(me)

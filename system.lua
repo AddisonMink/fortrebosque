@@ -114,7 +114,17 @@ function update_body(body)
 end
 -- #endregion
 
--- #animation
+-- #region hitbox
+function hitbox_new(layer, hp, hp_max)
+    return {
+        layer = layer,
+        hp = hp,
+        hp_max = hp_max or hp
+    }
+end
+-- #endregion
+
+-- #region animation
 function draw_anim(a, body)
     local n, i, s, f
     n = #a.frames

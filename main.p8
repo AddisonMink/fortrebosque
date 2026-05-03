@@ -43,10 +43,11 @@ function _draw()
 	 end
 	end
 
+	local player = entities[1]
 	local y = -8
 	local x = print("hp", 1,y,8)
-	for i = 1, 5 do
-		x = print("♥", x, y, i < 3 and 8 or 2 )
+	for i = 1, player.hitbox.hp_max do
+		x = print("♥", x, y, i <= player.hitbox.hp and 8 or 2 )
 	end
 end
 -->8
