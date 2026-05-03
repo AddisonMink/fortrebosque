@@ -1,14 +1,3 @@
-function timer_new(dur)
-    local t = 0
-    return function()
-        if t < dur then
-            t += 1 / 30
-        else
-            return true
-        end
-    end
-end
-
 function player_behavior_new()
     -- constants
     local idle_anim = { frames = { 16 }, fps = 1 }
@@ -40,7 +29,6 @@ function player_behavior_new()
     end
 
     -- state
-    local state = "idle"
     local timer = nil
     local weapon = nil
 
@@ -127,7 +115,7 @@ function player_behavior_new()
         end
     }
 
-    return state_machine_behavior_new("idle", state_map)
+    return state_machine_new("idle", state_map)
 end
 
 player = {
