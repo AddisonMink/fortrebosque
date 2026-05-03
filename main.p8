@@ -3,16 +3,9 @@ version 43
 __lua__
 #include system.lua
 #include behavior.lua
+#include player.lua
 
-function draw_anim(a,body)
-	local n, i, s, f
-	n = #a.frames
-	i = time() * a.fps
-	i = flr(i) % n + 1
-	s = a.frames[i]
-	f = body.facing < 0
-	spr(s,body.x,body.y,1,1,f)
-end
+
 
 function bone_new(x,y,dx)
 	return {
@@ -97,38 +90,7 @@ bat = {
 	end
 }
 
-player = {
-	body = body_new(16,16,0,0,1,true),
-	anim = {frames = {16}, fps = 1},
-	idle_anim = {frames = {16}, fps = 1},
-	walk_anim = {frames = {16,17,18,17},fps = 4},
-	windup_anim = {frames = {20}, fps = 1},
-	attack_anim = {frames = {21}, fps = 1},
-	update = state_machine_behavior_new("walk", {
-		walk = function(me)
-			if btnp(5) then
-				me.body.vel_x = 0
-				me.anim = me.windup_anim
-				return "attack_windup"
-			else
-				local dx = btn(0) and -1 or btn(1) and 1 or 0
-				me.body.vel_x = dx
-				me.anim = dx == 0 and me.idle_anim or me.walk_anim
-				me.body.facing = dx ~= 0 and dx or me.body.facing
-			end
-		end,
-		attack_windup = timed_behavior_new(0.25, function(me, entities)
-			me.anim = me.attack_anim
-			return "attack"
-		end),
-		attack = timed_behavior_new(0.25, function(me, entities)
-			return "walk"
-		end),
-	}),
-	draw = function(me)
-		draw_anim(me.anim,me.body)
-	end
-}
+
 
 entities = { player }
 
@@ -158,6 +120,7 @@ function _draw()
 	 	e.draw(e)
 	 end
 	end
+	print(player.body.grounded)
 end
 -->8
 

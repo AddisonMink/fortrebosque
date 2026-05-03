@@ -1,0 +1,116 @@
+function timer_new(dur)
+    local t = 0
+    return function()
+        if t < dur then
+            t += 1 / 30
+        else
+            return true
+        end
+    end
+end
+
+function player_behavior_new()
+    -- constants
+    local idle_anim = { frames = { 16 }, fps = 1 }
+    local walk_anim = { frames = { 16, 17, 18, 17 }, fps = 4 }
+    local windup_anim = { frames = { 20 }, fps = 1 }
+    local attack_anim = { frames = { 21 }, fps = 1 }
+    local jump_anim = { frames = { 19 }, fps = 1 }
+    local jump_vel = -2.1
+    local attack_windup_dur = 0.25
+    local attack_dur = 0.25
+
+    -- state
+    local state = "idle"
+    local timer = nil
+
+    local state_map = {
+        idle = function(me, entities)
+            me.body.vel_x = 0
+            
+            if not me.body.grounded then
+                me.anim = jump_anim
+                return "jump"
+            elseif btnp(4) then
+                me.body.vel_y = jump_vel
+                me.anim = jump_anim
+                return "jump"
+            elseif btnp(5) then
+                me.anim = windup_anim
+                timer = timer_new(attack_windup_dur)
+                return "attack_windup"
+            elseif btn(0) or btn(1) then
+                local dx = btn(0) and -1 or 1
+                me.body.vel_x = dx
+                me.anim = walk_anim
+                me.body.facing = dx
+                return "walk"
+            end
+        end,
+        walk = function(me, entities)
+            if not me.body.grounded then
+                me.body.vel_x = 0
+                me.anim = jump_anim
+                return "jump"
+            elseif btnp(4) then
+                me.body.vel_y = jump_vel
+                me.anim = jump_anim
+                return "jump"
+            elseif btnp(5) then
+                me.anim = windup_anim
+                timer = timer_new(0.25)
+                return "attack_windup"
+            elseif not (btn(0) or btn(1)) then
+                me.body.vel_x = 0
+                me.anim = idle_anim
+                return "idle"
+            else
+                local dx = btn(0) and -1 or 1
+                me.body.vel_x = dx
+                me.anim = walk_anim
+                me.body.facing = dx
+            end
+        end,
+        attack_windup = function(me, entities)
+            if me.body.grounded then me.body.vel_x = 0 end
+
+            if timer() then
+                me.anim = attack_anim
+                timer = timer_new(attack_dur)
+                return "attack"
+            end
+        end,
+        attack = function(me, entities)
+            if me.body.grounded then me.body.vel_x = 0 end
+
+            if timer() then
+                me.anim = idle_anim
+                return "idle"
+            end
+        end,
+        jump = function(me, entities)
+            if me.body.grounded then
+                me.anim = idle_anim
+                return "idle"
+            elseif btnp(5) then
+                me.anim = windup_anim
+                timer = timer_new(attack_windup_dur)
+                return "attack_windup"
+            elseif btn(0) or btn(1) then
+                local dx = btn(0) and -1 or 1 
+                me.body.facing = dx
+            end
+        end
+    }
+
+    return state_machine_behavior_new("idle", state_map)
+end
+
+player = {
+    body = body_new(16, 16, 0, 0, 1, true),
+    anim = { frames = { 16 }, fps = 1 },
+    update = player_behavior_new(),
+    draw = function(me)
+        draw_anim(me.anim, me.body)
+    end
+}

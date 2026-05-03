@@ -99,5 +99,19 @@ function update_body(body)
 
     _move_body_x(body)
     _move_body_y(body)
+
+    body.grounded = body.solid and body_would_collide_y(body, body.y + 8)
+end
+-- #endregion
+
+-- #animation
+function draw_anim(a,body)
+	local n, i, s, f
+	n = #a.frames
+	i = time() * a.fps
+	i = flr(i) % n + 1
+	s = a.frames[i]
+	f = body.facing < 0
+	spr(s,body.x,body.y,1,1,f)
 end
 -- #endregion
