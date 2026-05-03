@@ -115,12 +115,47 @@ end
 -- #endregion
 
 -- #region hitbox
-function hitbox_new(layer, hp, hp_max)
+function hitbox_new(layer, hp)
     return {
         layer = layer,
         hp = hp,
-        hp_max = hp_max or hp
+        hp_max = hp
     }
+end
+
+function hurtbox_new(layer, damage)
+    return {
+        layer = layer,
+        damage = damage
+    }
+end
+
+function _apply_hit(hurtbox, entity, entities)
+    entity.hitbox.hp -= hurtbox.damage
+    entity.hitbox.invuln_timer = timer_new(0.5)
+
+    if entity.hitbox.hp <= 0 then
+        del(entities, entity)
+    end
+end
+
+function update_hurtbox(entity, entities)
+    for e in all(entities) do
+        local hit = e.hitbox and e.hitbox.layer == entity.hurtbox.layer
+                and abs(e.body.x - entity.body.x) < 8
+                and abs(e.body.y - entity.body.y) < 8
+                and not e.hitbox.invuln_timer
+
+        if hit then
+            _apply_hit(entity.hurtbox, e, entities)
+        end
+    end
+end
+
+function update_hitbox(entity)
+    if entity.hitbox.invuln_timer and entity.hitbox.invuln_timer() then
+        entity.hitbox.invuln_timer = nil
+    end
 end
 -- #endregion
 

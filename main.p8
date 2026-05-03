@@ -1,8 +1,8 @@
 pico-8 cartridge // http://www.pico-8.com
 version 43
 __lua__
+#include util.lua
 #include system.lua
-#include behavior.lua
 #include player.lua
 #include zombie.lua
 
@@ -29,6 +29,18 @@ function _update()
 	for e in all(entities) do
 		if e.body then
 			update_body(e.body)
+		end
+	end
+
+	for e in all(entities) do
+		if e.hurtbox then
+			update_hurtbox(e, entities)
+		end
+	end
+
+	for e in all(entities) do
+		if e.hitbox then
+			update_hitbox(e, entities)
 		end
 	end
 end

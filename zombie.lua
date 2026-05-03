@@ -30,6 +30,7 @@ function zombie_behavior_new()
             if timer() then
                 me.body.vel_x = speed * me.body.facing
                 me.anim = walk_anim
+                me.hitbox = hitbox_new("enemy", 2)
                 return "walk"
             end
         end,
@@ -63,6 +64,7 @@ end
 
 zombie = {
     body = body_new(64, 48, 0, 0, 1, true),
+    hitobox = nil,
     update = zombie_behavior_new(),
     draw = function(me)
         draw_anim(me.anim, me.body)
