@@ -10,29 +10,31 @@ function body_new(x, y, vel_x, vel_y, facing, solid)
     }
 end
 
-function point_would_collide(x, y)
+function point_would_collide(x, y, dy)
     local tx, ty = flr(x / 8), flr(y / 8)
-    return fget(mget(tx, ty), 0)
+    local tile = mget(tx, ty)
+    return fget(tile, 0)
+            or dy > 0 and fget(tile, 1) and flr(y % 8) == 0
 end
 
-function body_would_collide_y(body, new_y)
+function body_would_collide_y(body, new_y, dy)
     local left = body.x
     local right = body.x + 7
-    return point_would_collide(left, new_y)
-            or point_would_collide(right, new_y)
+    return point_would_collide(left, new_y, dy)
+            or point_would_collide(right, new_y, dy)
 end
 
 function body_would_collide_x(body, new_x)
     local top = body.y
     local bottom = body.y + 7
-    return point_would_collide(new_x, top)
-            or point_would_collide(new_x, bottom)
+    return point_would_collide(new_x, top, 0)
+            or point_would_collide(new_x, bottom, 0)
 end
 
 function _nudge_body_y(body, dy)
     local offset = dy > 0 and 7 or 0
 
-    if body_would_collide_y(body, body.y + dy + offset) then
+    if body_would_collide_y(body, body.y + dy + offset, dy) then
         body.vel_y = 0
         return true
     else
@@ -100,18 +102,18 @@ function update_body(body)
     _move_body_x(body)
     _move_body_y(body)
 
-    body.grounded = body.solid and body_would_collide_y(body, body.y + 8)
+    body.grounded = body.solid and body_would_collide_y(body, body.y + 8, 1)
 end
 -- #endregion
 
 -- #animation
-function draw_anim(a,body)
-	local n, i, s, f
-	n = #a.frames
-	i = time() * a.fps
-	i = flr(i) % n + 1
-	s = a.frames[i]
-	f = body.facing < 0
-	spr(s,body.x,body.y,1,1,f)
+function draw_anim(a, body)
+    local n, i, s, f
+    n = #a.frames
+    i = time() * a.fps
+    i = flr(i) % n + 1
+    s = a.frames[i]
+    f = body.facing < 0
+    spr(s, body.x, body.y, 1, 1, f)
 end
 -- #endregion
