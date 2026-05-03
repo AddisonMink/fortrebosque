@@ -16,6 +16,7 @@ __lua__
 entities = { player, zombie }
 
 function _init()
+	camera(0,-8)
 end
 
 function _update()
@@ -41,7 +42,12 @@ function _draw()
 	 	e.draw(e)
 	 end
 	end
-	print(player.body.grounded)
+
+	local y = -8
+	local x = print("hp", 1,y,8)
+	for i = 1, 5 do
+		x = print("♥", x, y, i < 3 and 8 or 2 )
+	end
 end
 -->8
 
