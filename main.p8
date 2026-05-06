@@ -2,6 +2,7 @@ pico-8 cartridge // http://www.pico-8.com
 version 43
 __lua__
 #include util.lua
+#include body.lua
 #include system.lua
 #include player.lua
 #include zombie.lua
