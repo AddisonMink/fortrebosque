@@ -33,10 +33,13 @@ function bat_behavior_new()
     return state_machine_new("hang", state_map)
 end
 
-bat = {
-    body = body_new(80, 40, 0, 0, 1, false),
-    hitbox = hitbox_new("enemy", 1),
-    hurtbox = hurtbox_new("player", 1, { x = 0, y = 0, w = 6, h = 6 }),
-    anim = { frames = { 9 }, fps = 1 },
-    update = bat_behavior_new()
-}
+function bat_new(x, y)
+    return {
+        body = body_new(x,y,0,0, 1, false),
+        hitbox = hitbox_new("enemy", 1),
+        hurtbox = hurtbox_new("player", 1, { x = 0, y = 0, w = 6, h = 6 }),
+        anim = { frames = { 9 }, fps = 1 },
+        update = bat_behavior_new()
+    }
+end
+

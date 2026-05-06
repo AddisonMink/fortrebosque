@@ -63,7 +63,9 @@ function zombie_behavior_new()
     return state_machine_new("mound", state_map)
 end
 
-zombie = {
-    body = body_new(64, 48, 0, 0, 1, true),
-    update = zombie_behavior_new()
-}
+function zombie_new(x, y)
+    return {
+        body = body_new(x, y, 0, 0, 1, true),
+        update = zombie_behavior_new()
+    }
+end
