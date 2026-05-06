@@ -1,5 +1,6 @@
 function room_load(rx, ry, player)
     local tile_to_spawner_map = {
+        [1] = knight_new,
         [23] = zombie_new,
         [9] = bat_new
     }

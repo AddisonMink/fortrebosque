@@ -190,6 +190,11 @@ function draw_anim(a, body, hitbox)
     i = flr(i) % n + 1
     s = a.frames[i]
     f = body.facing < 0
-    spr(s, body.x, body.y, 1, 1, f)
+
+    if a.tall then
+        spr(s, body.x, body.y, 1, 2, f)
+    else
+        spr(s, body.x, body.y, 1, 1, f)
+    end
 end
 -- #endregion
