@@ -76,7 +76,7 @@ function draw_anim(a, body, hitbox)
     f = body.facing < 0
 
     if a.tall then
-        spr(s, body.x, body.y, 1, 2, f)
+        spr(s, body.x, body.y - 8, 1, 2, f)
     else
         spr(s, body.x, body.y, 1, 1, f)
     end
