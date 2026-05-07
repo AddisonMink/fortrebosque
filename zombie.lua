@@ -3,8 +3,8 @@ function zombie_behavior_new()
     local mound_anim = { frames = { 23 }, fps = 1 }
     local rise_anim = { frames = { 24 }, fps = 1 }
     local walk_anim = { frames = { 25, 26 }, fps = 1 }
-    local mound_dur = 1
-    local rise_dur = 1
+    local wake_up_range = 32
+    local rise_dur = 0.5
     local speed = 0.5
 
     -- state
@@ -12,13 +12,12 @@ function zombie_behavior_new()
 
     local state_map = {
         mound = function(me, entities)
-            if not timer then
-                timer = timer_new(mound_dur)
-                me.anim = mound_anim
-            end
+            local player = entities[1]        
+            local dx = abs(player.body.x - me.body.x)
 
-            if timer() then
-                local player = entities[1]
+            me.anim = mound_anim
+
+            if dx <= wake_up_range then
                 local facing = player.body.x > me.body.x and 1 or -1
                 me.body.facing = facing
                 timer = timer_new(rise_dur)
@@ -41,14 +40,14 @@ function zombie_behavior_new()
             if body_would_collide_x(me.body, new_x) then
                 me.anim = rise_anim
                 me.body.vel_x = 0
-                timer = timer_new(rise_dur / 4)
+                timer = timer_new(rise_dur)
                 return "sink"
             end
         end,
         sink = function(me)
             if timer() then
                 me.anim = mound_anim
-                timer = timer_new(mound_dur / 4)
+                timer = timer_new(rise_dur)
                 return "submerge"
             end
         end,

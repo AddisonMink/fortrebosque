@@ -49,7 +49,8 @@ function room_load(rx, ry, player)
             end
         end,
         draw = function()
-            map(tx, ty, 0, 0, 16, 9)
+            camera(tx * 8, ty * 8 - 8)
+            map(tx, ty, tx * 8, ty * 8, 16, 9)
 
             for e in all(entities) do
                 if e.anim then
@@ -57,7 +58,7 @@ function room_load(rx, ry, player)
                 end
             end
 
-            local y = -8
+            local y = ty * 8 - 8
             local x = print("hp", 1, y, player.hitbox.hp > 0 and 8 or 2)
             for i = 1, player.hitbox.hp_max do
                 x = print("♥", x, y, i <= player.hitbox.hp and 8 or 2)
