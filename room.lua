@@ -7,6 +7,10 @@ function room_load(rx, ry, player)
 
     local tx = rx * 16
     local ty = ry * 9
+    local x = tx * 8
+    local y = ty * 8
+    local x2 = x + 128
+    local y2 = y + 72
     local entities = { player }
 
     for tx = tx, tx + 15 do
@@ -47,6 +51,19 @@ function room_load(rx, ry, player)
                     update_hitbox(e, entities)
                 end
             end
+
+            local player = entities[1]
+            local px = player.body.x + 4
+            local py = player.body.y + 4
+            if px < x then
+                return { rx = rx - 1, ry = ry }
+            elseif px > x2 then
+                return { rx = rx + 1, ry = ry }
+            elseif py < y then
+                return { rx = rx, ry = ry - 1 }
+            elseif py > y2 then
+                return { rx = rx, ry = ry + 1 }
+            end
         end,
         draw = function()
             camera(tx * 8, ty * 8 - 8)
@@ -59,7 +76,8 @@ function room_load(rx, ry, player)
             end
 
             local y = ty * 8 - 8
-            local x = print("hp", 1, y, player.hitbox.hp > 0 and 8 or 2)
+            local x = tx * 8
+            x = print("hp", x + 1, y, player.hitbox.hp > 0 and 8 or 2)
             for i = 1, player.hitbox.hp_max do
                 x = print("♥", x, y, i <= player.hitbox.hp and 8 or 2)
             end
