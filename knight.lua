@@ -88,6 +88,11 @@ function knight_new(x, y)
         hitbox = hitbox_new("enemy", 3, { x = 2, y = -4, w = 6, h = 6 }),
         hurtbox = hurtbox_new("player", 1, { x = 2, y = -4, w = 6, h = 12 }),
         anim = walk_anim,
-        update = state_machine_new("walk", state_map)
+        update = state_machine_new("walk", state_map),
+        on_death = function(me, entities)
+            if weapon then
+                del(entities, weapon)
+            end
+        end
     }
 end

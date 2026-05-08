@@ -20,8 +20,7 @@ function _init()
 		end
 	end
 
-	player.body.x = 16
-	player.body.y = 48 + 80
+	player = player_new(16, 48 + 80)
 	room = room_map["0,1"]
 	room.init(player)
 	state = "play"

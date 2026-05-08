@@ -69,6 +69,9 @@ function room_load(rx, ry)
 
             for e in all(entities) do
                 if e.hitbox and e.hitbox.hp <= 0 then
+                    if e.on_death then
+                        e.on_death(e, entities)
+                    end
                     del(entities, e)
                 end
             end

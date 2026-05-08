@@ -1,4 +1,4 @@
-function player_behavior_new()
+function player_new(x, y)
     -- constants
     local idle_anim = { frames = { 16 }, fps = 1 }
     local walk_anim = { frames = { 16, 17, 18, 17 }, fps = 4 }
@@ -113,12 +113,15 @@ function player_behavior_new()
         end
     }
 
-    return state_machine_new("idle", state_map)
+    return {
+        body = body_new(x, y, 0, 0, 1, true),
+        hitbox = hitbox_new("player", 3),
+        anim = { frames = { 16 }, fps = 1 },
+        update = state_machine_new("idle", state_map),
+        on_death = function(me, entities)
+            if weapon then
+                del(entities, weapon)
+            end
+        end
+    }
 end
-
-player = {
-    body = body_new(16, 48, 0, 0, 1, true),
-    hitbox = hitbox_new("player", 10),
-    anim = { frames = { 16 }, fps = 1 },
-    update = player_behavior_new()
-}
