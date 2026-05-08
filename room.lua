@@ -32,6 +32,7 @@ function room_load(rx, ry)
         tx = tx,
         ty = ty,
         init = function(p)
+            global.mp = global.mp_max
             player = p
             entities = { player }
             for s in all(spawn_list) do
@@ -70,6 +71,8 @@ function room_load(rx, ry)
             elseif tile == 5 then
                 mset(tx, ty, 0)
                 global.knife = true
+                global.mp_max += 1
+                global.mp = global.mp_max
             end
 
             for e in all(entities) do
@@ -113,13 +116,12 @@ function room_load(rx, ry)
                 x = print("♥", x, y, i <= player.hitbox.hp and 8 or 2)
             end
             x += 2
-            if global.knife then
-                x = print("mp", x, y, 12)
-                spr(5, x, y - 1)
-                x += 8
-                for i = 1, global.mp_max do
-                    x = print("\134", x, y, i <= global.mp and 12 or 1)
-                end
+
+            x = print("mp", x, y, 12)
+            if global.knife then spr(5, x, y - 1) end
+            x += 8
+            for i = 1, global.mp_max do
+                x = print("\134", x, y, i <= global.mp and 12 or 1)
             end
         end
     }

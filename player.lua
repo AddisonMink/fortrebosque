@@ -9,6 +9,11 @@ function player_new(x, y)
     local jump_vel = -2.1
     local attack_windup_dur = 0.25
     local attack_dur = 0.25
+    local knife_speed = 4
+
+    -- state
+    local timer = nil
+    local weapon = nil
 
     -- local functions
     local function weapon_new(player_body)
@@ -26,13 +31,37 @@ function player_new(x, y)
         }
     end
 
-    -- state
-    local timer = nil
-    local weapon = nil
+    local function add_knife(me, entities)
+        local offset_x = me.body.facing == 1 and 4 or -4
+        local x = me.body.x + offset_x
+        local y = me.body.y
+
+        local knife = {
+            body = body_new(x, y, knife_speed * me.body.facing, 0, me.body.facing),
+            hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 4, w = 6, h = 2 }),
+            anim = { frames = { 5 }, fps = 1 }
+        }
+        add(entities, knife)
+    end
+
+    local function handle_attacks(me, entities, state_ref)
+        if btnp(5) and btn(2) and global.knife and global.mp >= 1 then
+            global.mp -= 1
+            me.anim = windup_anim
+            timer = timer_new(attack_windup_dur)
+            state_ref.state = "throw_windup"
+        elseif btnp(5) then
+            me.anim = windup_anim
+            timer = timer_new(attack_windup_dur)
+            state_ref.state = "attack_windup"
+        end
+        return true
+    end
 
     local state_map = {
         idle = function(me, entities)
             me.body.vel_x = 0
+            local state_ref = {}
 
             if not me.body.grounded then
                 me.anim = jump_anim
@@ -41,10 +70,8 @@ function player_new(x, y)
                 me.body.vel_y = jump_vel
                 me.anim = jump_anim
                 return "jump"
-            elseif btnp(5) then
-                me.anim = windup_anim
-                timer = timer_new(attack_windup_dur)
-                return "attack_windup"
+            elseif handle_attacks(me, entities, state_ref) and state_ref.state then
+                return state_ref.state
             elseif btn(0) or btn(1) then
                 local dx = btn(0) and -1 or 1
                 me.body.vel_x = dx
@@ -54,6 +81,8 @@ function player_new(x, y)
             end
         end,
         walk = function(me, entities)
+            local state_ref = {}
+
             if not me.body.grounded then
                 me.body.vel_x = 0
                 me.anim = jump_anim
@@ -62,10 +91,8 @@ function player_new(x, y)
                 me.body.vel_y = jump_vel
                 me.anim = jump_anim
                 return "jump"
-            elseif btnp(5) then
-                me.anim = windup_anim
-                timer = timer_new(0.25)
-                return "attack_windup"
+            elseif handle_attacks(me, entities, state_ref) and state_ref.state then
+                return state_ref.state
             elseif not (btn(0) or btn(1)) then
                 me.body.vel_x = 0
                 me.anim = idle_anim
@@ -98,14 +125,31 @@ function player_new(x, y)
                 return "idle"
             end
         end,
+        throw_windup = function(me, entities)
+            if me.body.grounded then me.body.vel_x = 0 end
+
+            if timer() then
+                add_knife(me, entities)
+                me.anim = attack_anim
+                timer = timer_new(attack_dur)
+                return "throw"
+            end
+        end,
+        throw = function(me, entities)
+            if me.body.grounded then me.body.vel_x = 0 end
+
+            if timer() then
+                me.anim = idle_anim
+                return "idle"
+            end
+        end,
         jump = function(me, entities)
+            local state_ref = {}
             if me.body.grounded then
                 me.anim = idle_anim
                 return "idle"
-            elseif btnp(5) then
-                me.anim = windup_anim
-                timer = timer_new(attack_windup_dur)
-                return "attack_windup"
+            elseif handle_attacks(me, entities, state_ref) and state_ref.state then
+                return state_ref.state
             elseif btn(0) or btn(1) then
                 local dx = btn(0) and -1 or 1
                 me.body.facing = dx

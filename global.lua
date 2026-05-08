@@ -1,5 +1,5 @@
 global = {
-    knife = true,
+    knife = false,
     mp = 0,
-    mp_max = 1
+    mp_max = 0
 }
