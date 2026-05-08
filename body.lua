@@ -10,6 +10,10 @@ function body_new(x, y, vel_x, vel_y, facing, solid, pinned_body)
     }
 end
 
+function body_center_tile(body)
+    return mget(flr((body.x + 4) / 8), flr((body.y + 4) / 8))
+end
+
 function point_would_collide(x, y, dy)
     local tx, ty = flr(x / 8), flr(y / 8)
     local tile = mget(tx, ty)

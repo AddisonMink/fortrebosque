@@ -52,10 +52,23 @@ function room_load(rx, ry, player)
                 end
             end
 
-            local player = entities[1]
+            local player_tile = body_center_tile(player.body)
+            if fget(player_tile, 2) then
+                player.hitbox.hp = 0
+            end
+
+            for e in all(entities) do
+                if e.hitbox and e.hitbox.hp <= 0 then
+                    del(entities, e)
+                end
+            end
+
             local px = player.body.x + 4
             local py = player.body.y + 4
-            if px < x then
+
+            if player.hitbox.hp <= 0 then
+                return { dead = true }
+            elseif px < x then
                 return { rx = rx - 1, ry = ry }
             elseif px > x2 then
                 return { rx = rx + 1, ry = ry }
