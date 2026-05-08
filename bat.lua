@@ -2,6 +2,7 @@ function bat_behavior_new()
     -- constants
     local fly_anim = { frames = { 7, 8 }, fps = 6 }
     local x_range = 40
+    local y_range = 20
     local speed = 1
 
     -- state
@@ -12,8 +13,9 @@ function bat_behavior_new()
             local player = entities[1]
             local me_x, me_y = me.body.x, me.body.y
             local p_x, p_y = player.body.x, player.body.y
-            local x_dist = p_x - me_x
-            if abs(x_dist) < x_range and p_y > me_y then
+            local x_dist = abs(p_x - me_x)
+            local y_dist = abs(p_y - me_y)
+            if x_dist < x_range and y_dist < y_range and p_y > me_y then
                 target_y = p_y - 4
                 me.anim = fly_anim
                 me.body.facing = p_x < me_x and -1 or 1
