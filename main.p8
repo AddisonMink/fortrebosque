@@ -12,9 +12,18 @@ __lua__
 #include room.lua
 
 function _init()
+	room_map = {}
+	for rx = 0, 7 do
+		for ry = 0, 3 do
+			local key = rx .. "," .. ry
+			room_map[key] = room_load(rx, ry)
+		end
+	end
+
 	player.body.x = 16
 	player.body.y = 48 + 80
-	room = room_load(0, 1, player)
+	room = room_map["0,1"]
+	room.init(player)
 	state = "play"
 end
 
@@ -23,7 +32,8 @@ function _update()
 		local result = room.update()
 		if not result then
 		elseif result.rx and result.ry then
-			room = room_load(result.rx, result.ry, player)
+			room = room_map[result.rx .. "," .. result.ry]
+			room.init(player)
 		elseif result.dead then
 			state = "dead"
 		end

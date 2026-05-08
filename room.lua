@@ -1,4 +1,4 @@
-function room_load(rx, ry, player)
+function room_load(rx, ry)
     local tile_to_spawner_map = {
         [1] = knight_new,
         [23] = zombie_new,
@@ -11,15 +11,18 @@ function room_load(rx, ry, player)
     local y = ty * 8
     local x2 = x + 128
     local y2 = y + 72
-    local entities = { player }
+    local entities = {}
+    local spawn_list = {}
+    local player = nil
 
     for tx = tx, tx + 15 do
         for ty = ty, ty + 8 do
             local tile = mget(tx, ty)
             local spawner = tile_to_spawner_map[tile]
+            local x, y = tx * 8, ty * 8
             if spawner then
                 mset(tx, ty, 0)
-                add(entities, spawner(tx * 8, ty * 8))
+                add(spawn_list, { x = x, y = y, spawner = spawner })
             end
         end
     end
@@ -27,6 +30,13 @@ function room_load(rx, ry, player)
     return {
         tx = tx,
         ty = ty,
+        init = function(p)
+            player = p
+            entities = { player }
+            for s in all(spawn_list) do
+                add(entities, s.spawner(s.x, s.y))
+            end
+        end,
         update = function()
             for e in all(entities) do
                 if e.update then
