@@ -3,7 +3,8 @@ function zombie_behavior_new()
     local mound_anim = { frames = { 23 }, fps = 1 }
     local rise_anim = { frames = { 24 }, fps = 1 }
     local walk_anim = { frames = { 25, 26 }, fps = 1 }
-    local wake_up_range = 32
+    local min_x_dist = 32
+    local min_y_dist = 16
     local rise_dur = 0.5
     local speed = 0.5
 
@@ -14,10 +15,11 @@ function zombie_behavior_new()
         mound = function(me, entities)
             local player = entities[1]        
             local dx = abs(player.body.x - me.body.x)
+            local dy = abs(player.body.y - me.body.y)
 
             me.anim = mound_anim
 
-            if dx <= wake_up_range then
+            if dx <= min_x_dist and dy <= min_y_dist then
                 local facing = player.body.x > me.body.x and 1 or -1
                 me.body.facing = facing
                 timer = timer_new(rise_dur)
