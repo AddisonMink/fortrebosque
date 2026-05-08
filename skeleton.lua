@@ -25,7 +25,8 @@ function skeleton_new(x, y)
             update = function(me)
                 me.body.vel_y += 0.2
 
-                local tile = body_center_tile(me.body)
+                local tx, ty = body_center_tile(me.body)
+                local tile = mget(tx, ty)
                 if fget(tile, 0) then
                     del(entities, me)
                 end

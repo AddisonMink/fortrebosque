@@ -63,9 +63,13 @@ function room_load(rx, ry)
                 end
             end
 
-            local player_tile = body_center_tile(player.body)
-            if fget(player_tile, 2) then
+            local tx, ty = body_center_tile(player.body)
+            local tile = mget(tx, ty)
+            if fget(tile, 2) then
                 player.hitbox.hp = 0
+            elseif tile == 5 then
+                mset(tx, ty, 0)
+                global.knife = true
             end
 
             for e in all(entities) do
