@@ -7,7 +7,7 @@ function knight_new(x, y)
     local attack_dur = 0.5
     local shockwave_step_dur = 0.1
     local shockwave_steps = 5
-    local attack_range = 12
+    local attack_range = 16
 
     -- local functions
     local function shockwave_add(body, entities)

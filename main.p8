@@ -22,7 +22,7 @@ function _init()
 		end
 	end
 
-	player = player_new(16 + 128, 48 + 80 - 40)
+	player = player_new(16, 48 + 80 - 40)
 	room = room_map["0,1"]
 	room.init(player)
 	state = "play"
