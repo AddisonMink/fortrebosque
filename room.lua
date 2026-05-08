@@ -112,6 +112,15 @@ function room_load(rx, ry)
             for i = 1, player.hitbox.hp_max do
                 x = print("♥", x, y, i <= player.hitbox.hp and 8 or 2)
             end
+            x += 2
+            if global.knife then
+                x = print("mp", x, y, 12)
+                spr(5, x, y - 1)
+                x += 8
+                for i = 1, global.mp_max do
+                    x = print("\134", x, y, i <= global.mp and 12 or 1)
+                end
+            end
         end
     }
 end
