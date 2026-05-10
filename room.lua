@@ -20,10 +20,9 @@ function room_load(rx, ry)
         for ty = ty, ty + 8 do
             local tile = mget(tx, ty)
             local spawner = tile_to_spawner_map[tile]
-            local x, y = tx * 8, ty * 8
             if spawner then
                 mset(tx, ty, 0)
-                add(spawn_list, { x = x, y = y, spawner = spawner })
+                add(spawn_list, { tx = tx, ty = ty, spawner = spawner })
             end
         end
     end
@@ -36,7 +35,12 @@ function room_load(rx, ry)
             player = p
             entities = { player }
             for s in all(spawn_list) do
-                add(entities, s.spawner(s.x, s.y))
+                local key = s.tx .. "," .. s.ty
+                if not global.dont_respawn[key] then
+                    local x = s.tx * 8
+                    local y = s.ty * 8
+                    add(entities, s.spawner(x, y))
+                end
             end
         end,
         update = function()

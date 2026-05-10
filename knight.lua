@@ -8,6 +8,11 @@ function knight_new(x, y)
     local shockwave_step_dur = 0.1
     local shockwave_steps = 5
     local attack_range = 16
+    local tx = flr(x / 8)
+    local ty = flr(y / 8)
+    local room_tx = flr(tx / 16) * 16
+    local room_ty = flr(ty / 9) * 9
+    local key = tx .. "," .. ty
 
     -- local functions
     local function shockwave_add(body, entities)
@@ -90,18 +95,22 @@ function knight_new(x, y)
         anim = walk_anim,
         update = state_machine_new("walk", state_map),
         on_death = function(me, entities)
+            -- delete weapon if exist
             if weapon then
                 del(entities, weapon)
             end
-            local tx = flr(flr(me.body.x / 8) / 16) * 16
-            local ty = flr(flr(me.body.y / 8) / 9) * 9
-            for tx = tx, tx + 15 do
-                for ty = ty, ty + 8 do
+
+            -- open any gates in the room
+            for tx = room_tx, room_tx + 15 do
+                for ty = room_ty, room_ty + 8 do
                     if mget(tx, ty) == 6 then
                         mset(tx, ty, 0)
                     end
                 end
             end
+
+            -- dont respawn knight
+            global.dont_respawn[key] = true
         end
     }
 end
