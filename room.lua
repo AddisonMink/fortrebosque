@@ -3,7 +3,8 @@ function room_load(rx, ry)
         [1] = knight_new,
         [23] = zombie_new,
         [9] = bat_new,
-        [10] = skeleton_new
+        [10] = skeleton_new,
+        [15] = merman_new
     }
 
     local tx = rx * 16
@@ -104,7 +105,7 @@ function room_load(rx, ry)
             end
         end,
         draw = function()
-            camera(tx * 8, ty * 8 - 8)
+            camera(tx * 8, ty * 8 - 9)
             map(tx, ty, tx * 8, ty * 8, 16, 9)
 
             for e in all(entities) do
@@ -126,6 +127,14 @@ function room_load(rx, ry)
             x += 8
             for i = 1, global.mp_max do
                 x = print("\134", x, y, i <= global.mp and 12 or 1)
+            end
+
+            if not global.enemy_hitbox then return end
+            x = 80
+            spr(46, x, y - 1)
+            x += 7
+            for i = 1, global.enemy_hitbox.hp_max do
+                x = print("♥", x, y, i <= global.enemy_hitbox.hp and 8 or 2)
             end
         end
     }
