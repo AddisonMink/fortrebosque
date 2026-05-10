@@ -93,6 +93,15 @@ function knight_new(x, y)
             if weapon then
                 del(entities, weapon)
             end
+            local tx = flr(flr(me.body.x / 8) / 16) * 16
+            local ty = flr(flr(me.body.y / 8) / 9) * 9
+            for tx = tx, tx + 15 do
+                for ty = ty, ty + 8 do
+                    if mget(tx, ty) == 6 then
+                        mset(tx, ty, 0)
+                    end
+                end
+            end
         end
     }
 end
