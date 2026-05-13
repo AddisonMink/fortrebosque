@@ -78,6 +78,11 @@ function room_load(rx, ry)
                 global.knife = true
                 global.mp_max += 1
                 global.mp = global.mp_max
+            elseif tile == 62 then
+                mset(tx, ty, 0)
+                global.axe = true
+                global.mp_max += 1
+                global.mp = global.mp_max
             end
 
             for e in all(entities) do
