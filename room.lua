@@ -4,7 +4,8 @@ function room_load(rx, ry)
         [23] = zombie_new,
         [9] = bat_new,
         [10] = skeleton_new,
-        [15] = merman_new
+        [15] = merman_new,
+        [113] = lever_new
     }
 
     local tx = rx * 16
