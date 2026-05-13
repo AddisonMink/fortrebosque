@@ -76,12 +76,12 @@ function room_load(rx, ry)
                 player.hitbox.hp = 0
             elseif tile == 5 then
                 mset(tx, ty, 0)
-                global.knife = true
+                add(global.subweapons, "knife")
                 global.mp_max += 1
                 global.mp = global.mp_max
             elseif tile == 62 then
                 mset(tx, ty, 0)
-                global.axe = true
+                add(global.subweapons, "axe")
                 global.mp_max += 1
                 global.mp = global.mp_max
             end
@@ -129,7 +129,12 @@ function room_load(rx, ry)
             x += 2
 
             x = print("mp", x, y, 12)
-            if global.knife then spr(5, x, y - 1) end
+            local subweapon_name = global.subweapons[global.subweapon_index]
+            if subweapon_name then
+                local s = subweapon_name == "knife" and 5
+                        or subweapon_name == "axe" and 62
+                spr(s, x, y - 1)
+            end
             x += 8
             for i = 1, global.mp_max do
                 x = print("\134", x, y, i <= global.mp and 12 or 1)

@@ -16,6 +16,7 @@ function player_new(x, y)
     -- state
     local timer = nil
     local weapon = nil
+    local add_subweapon = nil
 
     -- local functions
     local function weapon_new(player_body)
@@ -63,11 +64,18 @@ function player_new(x, y)
     end
 
     local function handle_attacks(me, entities, state_ref)
-        if btnp(5) and btn(2) and global.knife and global.mp >= 1 then
+        add_subweapon = nil
+        local subweapon_name = global.subweapons[global.subweapon_index]
+        add_subweapon = subweapon_name
+                and (subweapon_name == "knife" and add_knife or subweapon_name == "axe" and add_axe)
+
+        if btnp(5) and btn(2) and add_subweapon and global.mp >= 1 then
             global.mp -= 1
             me.anim = windup_anim
             timer = timer_new(attack_windup_dur)
             state_ref.state = "throw_windup"
+        elseif btnp(3) then
+            global.subweapon_index = (global.subweapon_index % #global.subweapons) + 1
         elseif btnp(5) then
             me.anim = windup_anim
             timer = timer_new(attack_windup_dur)
@@ -147,8 +155,7 @@ function player_new(x, y)
             if me.body.grounded then me.body.vel_x = 0 end
 
             if timer() then
-                --add_knife(me, entities)
-                add_axe(me, entities)
+                add_subweapon(me, entities)
                 me.anim = attack_anim
                 timer = timer_new(attack_dur)
                 return "throw"

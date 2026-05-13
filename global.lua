@@ -1,9 +1,8 @@
 global = {
-    knife = true,
-    axe = true,
     subweapons = {},
-    mp = 2,
-    mp_max = 2,
+    subweapon_index = 1,
+    mp = 0,
+    mp_max = 0,
     dont_respawn = {},
     lever_states = {},
 
