@@ -10,6 +10,8 @@ function player_new(x, y)
     local attack_windup_dur = 0.25
     local attack_dur = 0.25
     local knife_speed = 4
+    local axe_speed_x = 1
+    local axe_vel_y = -4
 
     -- state
     local timer = nil
@@ -42,6 +44,22 @@ function player_new(x, y)
             anim = { frames = { 5 }, fps = 1 }
         }
         add(entities, knife)
+    end
+
+    local function add_axe(me, entities)
+        local offset_x = me.body.facing == 1 and 4 or -4
+        local x = me.body.x + offset_x
+        local y = me.body.y
+
+        local axe = {
+            body = body_new(x, y, axe_speed_x * me.body.facing, axe_vel_y, me.body.facing),
+            hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 2, w = 4, h = 4 }),
+            anim = { frames = { 62, 115 }, fps = 6 },
+            update = function(me)
+                me.body.vel_y += 0.2
+            end
+        }
+        add(entities, axe)
     end
 
     local function handle_attacks(me, entities, state_ref)
@@ -129,7 +147,8 @@ function player_new(x, y)
             if me.body.grounded then me.body.vel_x = 0 end
 
             if timer() then
-                add_knife(me, entities)
+                --add_knife(me, entities)
+                add_axe(me, entities)
                 me.anim = attack_anim
                 timer = timer_new(attack_dur)
                 return "throw"
