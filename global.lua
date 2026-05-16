@@ -11,6 +11,13 @@ global = {
             for tx = 37, 40 do
                 mset(tx, 24, 33)
             end
+        end,
+        ["17,4"] = function()
+            mset(31, 7, 0)
+            mset(32, 7, 0)
+            mset(33, 8, 96)
+            mset(36, 8, 96)
+            mset(38, 8, 96)
         end
     }
 }

@@ -34,6 +34,12 @@ function player_new(x, y)
         }
     end
 
+    local function destroy_on_wall_collision(me, entities)
+        if point_would_collide(me.body.x, me.body.y, 0) then
+            del(entities, me)
+        end
+    end
+
     local function add_knife(me, entities)
         local offset_x = me.body.facing == 1 and 4 or -4
         local x = me.body.x + offset_x
@@ -42,7 +48,8 @@ function player_new(x, y)
         local knife = {
             body = body_new(x, y, knife_speed * me.body.facing, 0, me.body.facing),
             hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 4, w = 6, h = 2 }),
-            anim = { frames = { 5 }, fps = 1 }
+            anim = { frames = { 5 }, fps = 1 },
+            update = destroy_on_wall_collision
         }
         add(entities, knife)
     end
@@ -58,6 +65,7 @@ function player_new(x, y)
             anim = { frames = { 62, 115 }, fps = 6 },
             update = function(me)
                 me.body.vel_y += 0.2
+                destroy_on_wall_collision(me, entities)
             end
         }
         add(entities, axe)
