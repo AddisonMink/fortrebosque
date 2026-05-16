@@ -35,8 +35,13 @@ function player_new(x, y)
     end
 
     local function destroy_on_wall_collision(me, entities)
-        if point_would_collide(me.body.x, me.body.y, 0) then
+        local collide = point_would_collide(me.body.x, me.body.y, 0)
+                or point_would_collide(me.body.x + 7, me.body.y, 0)
+                or point_would_collide(me.body.x, me.body.y + 7, 0)
+                or point_would_collide(me.body.x + 7, me.body.y + 7, 0)
+        if collide then
             del(entities, me)
+            return true
         end
     end
 
@@ -71,11 +76,51 @@ function player_new(x, y)
         add(entities, axe)
     end
 
+    local function add_fire(me, entities)
+        local timer = timer_new(1)
+        local y = flr(me.body.y / 8) * 8
+
+        local fire = {
+            body = body_new(me.body.x, y, 0, 0, me.body.facing),
+            hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 2, w = 4, h = 4 }),
+            anim = { frames = { 118, 119 }, fps = 4 },
+            update = function(me)
+                if timer() then
+                    del(entities, me)
+                end
+            end
+        }
+
+        add(entities, fire)
+    end
+
+    local function add_water(me, entities)
+        local offset_x = me.body.facing == 1 and 4 or -4
+        local x = me.body.x + offset_x
+        local y = me.body.y
+
+        local water = {
+            body = body_new(x, y, axe_speed_x * me.body.facing, -1, me.body.facing),
+            hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 2, w = 4, h = 4 }),
+            anim = { frames = { 117 }, fps = 1 },
+            update = function(me, entities)
+                me.body.vel_y += 0.2
+                if destroy_on_wall_collision(me, entities) then
+                    add_fire(me, entities)
+                end
+            end
+        }
+        add(entities, water)
+    end
+
     local function handle_attacks(me, entities, state_ref)
         add_subweapon = nil
         local subweapon_name = global.subweapons[global.subweapon_index]
+
         add_subweapon = subweapon_name
-                and (subweapon_name == "knife" and add_knife or subweapon_name == "axe" and add_axe)
+                and (subweapon_name == "knife" and add_knife
+                    or subweapon_name == "axe" and add_axe
+                    or subweapon_name == "water" and add_water)
 
         if btnp(5) and btn(2) and add_subweapon and global.mp >= 1 then
             global.mp -= 1
