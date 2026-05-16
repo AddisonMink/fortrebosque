@@ -16,6 +16,8 @@ function draw_anim(a, body, hitbox)
 
     if a.tall then
         spr(s, body.x, body.y - 8, 1, 2, f)
+    elseif a.big then
+        spr(s, body.x, body.y, 2, 2, f)
     else
         spr(s, body.x, body.y, 1, 1, f)
     end

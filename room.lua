@@ -6,7 +6,8 @@ function room_load(rx, ry)
         [10] = skeleton_new,
         [15] = merman_new,
         [113] = lever_new,
-        [97] = guard_new
+        [97] = guard_new,
+        [116] = demon_new
     }
 
     local tx = rx * 16
@@ -85,6 +86,11 @@ function room_load(rx, ry)
                 add(global.subweapons, "axe")
                 global.mp_max += 1
                 global.mp = global.mp_max
+            elseif tile == 117 then
+                mset(tx, ty, 0)
+                add(global.subweapons, "water")
+                global.mp_max += 1
+                global.mp = global.mp_max
             end
 
             for e in all(entities) do
@@ -139,6 +145,7 @@ function room_load(rx, ry)
             if subweapon_name then
                 local s = subweapon_name == "knife" and 5
                         or subweapon_name == "axe" and 62
+                        or subweapon_name == "water" and 117
                 spr(s, x, y - 1)
             end
             x += 8
