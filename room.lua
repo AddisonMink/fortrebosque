@@ -100,6 +100,11 @@ function room_load(rx, ry)
             local py = player.body.y + 4
 
             if player.hitbox.hp <= 0 then
+                for e in all(entities) do
+                    if e.on_player_death then
+                        e.on_player_death(e, entities)
+                    end
+                end
                 return { dead = true }
             elseif px < x then
                 return { rx = rx - 1, ry = ry }

@@ -1,2 +1,0 @@
-* when you die in a boss fight, the boss door doesn't re-open.
-* when you die in a boss fight, the boss's health bar stays in the hud.

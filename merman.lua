@@ -163,6 +163,10 @@ function merman_new(x, y)
             global.enemy_hitbox = nil
             global.dont_respawn[key] = true
             add_heart_pickup(entities)
+        end,
+        on_player_death = function()
+            mset(15, 23, 0)
+            global.enemy_hitbox = nil
         end
     }
 end
