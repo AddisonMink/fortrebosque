@@ -1,0 +1,2 @@
+* demon's health bar doesn't show up.
+* demon's fireball pattern is unreliable.
