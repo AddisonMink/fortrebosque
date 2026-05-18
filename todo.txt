@@ -5,3 +5,4 @@ BUGS
 
 BALANCE
 * skeleton's aren't very dangerous
+* there are safe spots in the demon room.
