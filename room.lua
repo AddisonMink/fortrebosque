@@ -154,7 +154,8 @@ function room_load(rx, ry)
             end
 
             if not global.enemy_hitbox then return end
-            x = 80
+            printh(global.enemy_hitbox, "debug.txt")
+            x = tx * 8 + 80
             spr(46, x, y - 1)
             x += 7
             for i = 1, global.enemy_hitbox.hp_max do

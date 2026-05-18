@@ -1,0 +1,9 @@
+TODO
+* make final boss.
+
+BUGS
+* demon's fireball pattern is unreliable.
+
+BALANCE
+* skeleton's aren't very dangerous
+* put holy water in church next to switch
