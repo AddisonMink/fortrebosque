@@ -112,7 +112,6 @@ function demon_new(x, y)
             global.dont_respawn[key] = true
             global.enemy_hitbox = nil
             add_heart_pickup(heart_pickup_x, heart_pickup_y, entities)
-            mset(58, 7, 117)
             mset(48, 4, 0)
             mset(48, 5, 0)
         end,

@@ -5,4 +5,3 @@ BUGS
 
 BALANCE
 * skeleton's aren't very dangerous
-* put holy water in church next to switch
