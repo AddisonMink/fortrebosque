@@ -2,7 +2,6 @@ TODO
 * make final boss.
 
 BUGS
-* demon's fireball pattern is unreliable.
 
 BALANCE
 * skeleton's aren't very dangerous
