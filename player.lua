@@ -82,7 +82,7 @@ function player_new(x, y)
 
         local fire = {
             body = body_new(me.body.x, y, 0, 0, me.body.facing),
-            hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 2, w = 4, h = 4 }),
+            hurtbox = hurtbox_new("enemy", 1, { x = 2, y = -2, w = 4, h = 10 }),
             anim = { frames = { 118, 119 }, fps = 4 },
             update = function(me)
                 if timer() then

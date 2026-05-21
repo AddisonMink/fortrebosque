@@ -7,7 +7,8 @@ function room_load(rx, ry)
         [15] = merman_new,
         [113] = lever_new,
         [97] = guard_new,
-        [116] = demon_new
+        [116] = demon_new,
+        [79] = dracula_new
     }
 
     local tx = rx * 16
@@ -127,6 +128,9 @@ function room_load(rx, ry)
             map(tx, ty, tx * 8, ty * 8, 16, 9)
 
             for e in all(entities) do
+                if e.draw then
+                    e.draw(e)
+                end
                 if e.anim then
                     draw_anim(e.anim, e.body, e.hitbox)
                 end
@@ -154,7 +158,6 @@ function room_load(rx, ry)
             end
 
             if not global.enemy_hitbox then return end
-            printh(global.enemy_hitbox, "debug.txt")
             x = tx * 8 + 80
             spr(46, x, y - 1)
             x += 7
