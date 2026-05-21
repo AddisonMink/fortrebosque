@@ -161,6 +161,9 @@ function dracula_new(x, y)
         body = body_new(x, y, 0, 0, -1),
         anim = inert_anim,
         update = state_machine_new("inert", state_map),
+        on_death = function(me, entities)
+            add(entities, nosferatu_new(x, y))
+        end,
         on_player_death = function()
             global.enemy_hitbox = nil
             mset(64, 15, 0)
