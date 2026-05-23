@@ -191,6 +191,9 @@ function nosferatu_new(x, y)
         hitbox = hitbox,
         hurtbox = hurtbox,
         update = state_machine_new("inert_1", state_map),
+        on_death = function()
+            global.dracula_dead = true
+        end,
         on_player_death = function()
             global.enemy_hitbox = nil
             mset(64, 15, 0)

@@ -3,6 +3,7 @@ global = {
     subweapon_index = 1,
     mp = 0,
     mp_max = 0,
+    dracula_dead = false,
     dont_respawn = {},
     lever_states = {},
 

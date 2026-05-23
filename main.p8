@@ -65,6 +65,8 @@ function _update()
 			room.init(player)
 		elseif result.dead then
 			state = "dead"
+		elseif global.dracula_dead then
+			state = "win"
 		end
 	elseif state == "dead" then
 		if btnp(5) then
@@ -75,6 +77,10 @@ function _update()
 			room.init(player)
 			state = "play"
 		end
+	elseif state == "win" and btnp(5) then
+		cursor = 0
+		state = "start"
+		camera(0, 0)
 	end
 end
 
@@ -94,6 +100,22 @@ function _draw()
 		y += 8
 		print("continue", x, y, 7)
 		print("\134", x - 8, cursor_y, 8)
+		return
+	elseif state == "win" then
+		local x, y = room_position(rx, ry)
+		local text = "vampire slain"
+		local text_x = x + 64 - (#text * 4) / 2
+		local text_y = y + 38
+
+		local prompt = "press ❎ to continue"
+		local prompt_x = x + 64 - (#prompt * 4) / 2
+		local prompt_y = y + 46
+
+		print(text, text_x + 1, text_y + 1, 2)
+		print(text, text_x, text_y, 8)
+
+		print(prompt, prompt_x + 1, prompt_y + 1, 2)
+		print(prompt, prompt_x, prompt_y, 8)
 		return
 	end
 

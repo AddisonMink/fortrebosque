@@ -1,6 +1,5 @@
 TODO
 * Intro text crawl.
-* End screen.
 * Outro text crawl.
 * Add map, room name, enemy name to HUD.
 * Save/Load
