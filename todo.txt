@@ -1,7 +1,6 @@
 TODO
 * Start screen with New and Continue options.
 * Intro text crawl.
-* Continue prompt on death. 
 * Add map, room name, enemy name to HUD.
 
 BUGS

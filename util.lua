@@ -29,3 +29,7 @@ function rects_overlap(rect1, rect2)
             and rect1.y < rect2.y + rect2.h
             and rect1.y + rect1.h > rect2.y
 end
+
+function room_position(rx, ry)
+    return rx * 128, ry * 72
+end

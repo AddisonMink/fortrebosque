@@ -29,6 +29,7 @@ function _init()
 	end
 
 	player = player_new(16, 48 + 80 - 40)
+	rx, ry = 0, 1
 
 	-- checkpoint: demon
 	-- player.body.x += 128 * 3 - 32
@@ -50,14 +51,17 @@ function _update()
 		local result = room.update()
 		if not result then
 		elseif result.rx and result.ry then
-			room = room_map[result.rx .. "," .. result.ry]
+			rx = result.rx
+			ry = result.ry
+			room = room_map[rx .. "," .. ry]
 			room.init(player)
 		elseif result.dead then
 			state = "dead"
 		end
 	elseif state == "dead" then
 		if btnp(5) then
-			room = room_map["0,1"]
+			rx, ry = 0, 1
+			room = room_map[rx .. "," .. ry]
 			player.body.x = 16
 			player.body.y = 48 + 80 - 40
 			player.body.vel_x = 0
@@ -73,6 +77,21 @@ end
 function _draw()
 	cls()
 	room.draw()
+
+	if state == "dead" then
+		local text = "you died"
+		local prompt = "press ❎ to continue"
+		local x, y = room_position(rx, ry)
+		local x1 = x + 64 - (#text * 4) / 2
+		local x2 = x + 64 - (#prompt * 4) / 2
+		local y1 = y + 30
+		local y2 = y + 36
+
+		print(text, x1 + 1, y1 + 1, 0)
+		print(text, x1, y1, 8)
+		print(prompt, x2 + 1, y2 + 1, 0)
+		print(prompt, x2, y2, 8)
+	end
 end
 
 __gfx__
