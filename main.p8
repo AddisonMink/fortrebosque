@@ -57,7 +57,9 @@ function _update()
 		end
 	elseif state == "play" then
 		local result = room.update()
-		if not result then
+		if global.dracula_dead then
+			state = "win"
+		elseif not result then
 		elseif result.rx and result.ry then
 			rx = result.rx
 			ry = result.ry
@@ -65,8 +67,6 @@ function _update()
 			room.init(player)
 		elseif result.dead then
 			state = "dead"
-		elseif global.dracula_dead then
-			state = "win"
 		end
 	elseif state == "dead" then
 		if btnp(5) then
