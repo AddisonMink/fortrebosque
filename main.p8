@@ -20,6 +20,8 @@ __lua__
 #include room.lua
 
 function _init()
+	cursor = 0
+
 	room_map = {}
 	for rx = 0, 7 do
 		for ry = 0, 3 do
@@ -28,7 +30,7 @@ function _init()
 		end
 	end
 
-	player = player_new(16, 48 + 80 - 40)
+	player = player_new(16, 128)
 	rx, ry = 0, 1
 
 	-- checkpoint: demon
@@ -43,11 +45,17 @@ function _init()
 
 	room = room_map["0,1"]
 	room.init(player)
-	state = "play"
+	state = "start"
 end
 
 function _update()
-	if state == "play" then
+	if state == "start" then
+		cursor = btnp(2) and 0 or btnp(3) and 1 or cursor
+
+		if btnp(5) then
+			state = "play"
+		end
+	elseif state == "play" then
 		local result = room.update()
 		if not result then
 		elseif result.rx and result.ry then
@@ -62,11 +70,7 @@ function _update()
 		if btnp(5) then
 			rx, ry = 0, 1
 			room = room_map[rx .. "," .. ry]
-			player.body.x = 16
-			player.body.y = 48 + 80 - 40
-			player.body.vel_x = 0
-			player.body.vel_y = 0
-			player.hitbox.hp = player.hitbox.hp_max
+			player = player_new(16, 128)
 			global.mp = global.mp_max
 			room.init(player)
 			state = "play"
@@ -76,6 +80,23 @@ end
 
 function _draw()
 	cls()
+
+	if state == "start" then
+		local title = "f o r t r e b o s q u e"
+		local title_x = 64 - (#title * 4) / 2
+		local title_y = 38
+		local x, y = 40, 64
+		local cursor_y = cursor == 0 and y or y + 8
+
+		print(title, title_x + 1, title_y + 1, 2)
+		print(title, title_x, title_y, 8)
+		print("new", x, y, 7)
+		y += 8
+		print("continue", x, y, 7)
+		print("\134", x - 8, cursor_y, 8)
+		return
+	end
+
 	room.draw()
 
 	if state == "dead" then
