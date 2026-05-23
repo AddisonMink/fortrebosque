@@ -10,6 +10,7 @@ function nosferatu_new(x, y)
     local inert_1_anim = anim_new(138, 1, "big")
     local inert_2_anim = anim_new(140, 1, "big")
     local blood_anim = anim_new({ 160, 161 }, 6)
+    local explosion_anim = anim_new({ 162, 164, 166, 168 }, 6, "big")
 
     -- constants
     local origin_y = y
@@ -85,6 +86,24 @@ function nosferatu_new(x, y)
         }
         add(entities, shock_wave)
         return shock_wave
+    end
+
+    local function add_death(me, entities)
+        local timer = timer_new(3)
+        local death = {
+            body = body_new(me.body.x, me.body.y, 0, 0, 0),
+            anim = explosion_anim,
+            update = function(me, entities)
+                if timer() then
+                    del(entities, me)
+                    global.dracula_dead = true
+                end
+            end,
+            draw = function(me)
+                spr(132, me.body.x, me.body.y, 2, 2)
+            end
+        }
+        add(entities, death)
     end
 
     local state_map = {
@@ -191,8 +210,8 @@ function nosferatu_new(x, y)
         hitbox = hitbox,
         hurtbox = hurtbox,
         update = state_machine_new("inert_1", state_map),
-        on_death = function()
-            global.dracula_dead = true
+        on_death = function(me, entities)
+            add_death(me, entities)
         end,
         on_player_death = function()
             global.enemy_hitbox = nil
