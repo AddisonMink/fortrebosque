@@ -1,4 +1,8 @@
 TODO
+* Start screen with New and Continue options.
+* Intro text crawl.
+* Continue prompt on death. 
+* Add map, room name, enemy name to HUD.
 
 BUGS
 
@@ -6,6 +10,4 @@ BALANCE
 * skeleton's aren't very dangerous
 * dracula's fireballs should be smaller.
 * there are safe spots in the demon room.
-
-TECH
-* Token Count: 7554
+* Spawn player on ground.
