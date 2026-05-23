@@ -10,7 +10,7 @@ global = {
     lever_funcs = {
         ["44,21"] = function()
             for tx = 37, 40 do
-                mset(tx, 24, 33)
+                mset(tx, 24, 48)
             end
         end,
         ["17,4"] = function()
