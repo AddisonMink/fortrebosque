@@ -113,9 +113,13 @@ function demon_new(x, y)
         on_death = function(me, entities)
             global.dont_respawn[key] = true
             global.enemy_hitbox = nil
-            add_heart_pickup(heart_pickup_x, heart_pickup_y, entities)
+
+            -- open doors.
             mset(48, 4, 0)
             mset(48, 5, 0)
+
+            -- remove demon statue.
+            mset(62, 16, 0)
         end,
         on_player_death = function(me)
             mset(48, 4, 0)

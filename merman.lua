@@ -144,7 +144,12 @@ function merman_new(x, y)
         on_death = function(me, entities)
             global.enemy_hitbox = nil
             global.dont_respawn[key] = true
-            add_heart_pickup(pickup_x, pickup_y, entities)
+
+            -- open door
+            mset(15, 23, 0)
+
+            -- remove merman statue.
+            mset(61, 16, 0)
         end,
         on_player_death = function()
             mset(15, 23, 0)
