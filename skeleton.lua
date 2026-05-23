@@ -1,9 +1,11 @@
 function skeleton_new(x, y)
+    -- animations
+    local idle_anim = anim_new({ 10, 11, 12, 11 }, 3)
+    local windup_anim = anim_new({ 13 })
+    local attack_anim = anim_new({ 14 })
+    local weapon_anim = anim_new({ 27, 28 }, 3)
+
     -- constants
-    local idle_anim = { frames = { 10, 11, 12, 11 }, fps = 3 }
-    local windup_anim = { frames = { 13 }, fps = 1 }
-    local attack_anim = { frames = { 14 }, fps = 1 }
-    local weapon_anim = { frames = { 27, 28 }, fps = 3 }
     local windup_dur = 0.5
     local attack_dur = 0.25
     local attack_cooldown = 3

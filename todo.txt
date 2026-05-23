@@ -1,8 +1,11 @@
 TODO
-* make final boss.
 
 BUGS
 
 BALANCE
 * skeleton's aren't very dangerous
+* dracula's fireballs should be smaller.
 * there are safe spots in the demon room.
+
+TECH
+* Token Count: 7554

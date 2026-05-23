@@ -1,11 +1,17 @@
 function player_new(x, y)
+    -- animations
+    local idle_anim = anim_new(16)
+    local walk_anim = anim_new({ 16, 17, 18, 17 }, 4)
+    local windup_anim = anim_new(20)
+    local attack_anim = anim_new(21)
+    local jump_anim = anim_new(19)
+    local weapon_anim = anim_new(22)
+    local knife_anim = anim_new(5)
+    local axe_anim = anim_new({ 62, 115 }, 6)
+    local fire_anim = anim_new({ 118, 119 }, 4)
+    local water_anim = anim_new(117)
+
     -- constants
-    local idle_anim = { frames = { 16 }, fps = 1 }
-    local walk_anim = { frames = { 16, 17, 18, 17 }, fps = 4 }
-    local windup_anim = { frames = { 20 }, fps = 1 }
-    local attack_anim = { frames = { 21 }, fps = 1 }
-    local jump_anim = { frames = { 19 }, fps = 1 }
-    local weapon_anim = { frames = { 22 }, fps = 1 }
     local jump_vel = -2.1
     local attack_windup_dur = 0.25
     local attack_dur = 0.25
@@ -53,7 +59,7 @@ function player_new(x, y)
         local knife = {
             body = body_new(x, y, knife_speed * me.body.facing, 0, me.body.facing),
             hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 4, w = 6, h = 2 }),
-            anim = { frames = { 5 }, fps = 1 },
+            anim = knife_anim,
             update = destroy_on_wall_collision
         }
         add(entities, knife)
@@ -67,7 +73,7 @@ function player_new(x, y)
         local axe = {
             body = body_new(x, y, axe_speed_x * me.body.facing, axe_vel_y, me.body.facing),
             hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 2, w = 4, h = 4 }),
-            anim = { frames = { 62, 115 }, fps = 6 },
+            anim = axe_anim,
             update = function(me)
                 me.body.vel_y += 0.2
                 destroy_on_wall_collision(me, entities)
@@ -83,7 +89,7 @@ function player_new(x, y)
         local fire = {
             body = body_new(me.body.x, y, 0, 0, me.body.facing),
             hurtbox = hurtbox_new("enemy", 1, { x = 2, y = -2, w = 4, h = 10 }),
-            anim = { frames = { 118, 119 }, fps = 4 },
+            anim = fire_anim,
             update = function(me)
                 if timer() then
                     del(entities, me)
@@ -102,7 +108,7 @@ function player_new(x, y)
         local water = {
             body = body_new(x, y, axe_speed_x * me.body.facing, -1, me.body.facing),
             hurtbox = hurtbox_new("enemy", 1, { x = 2, y = 2, w = 4, h = 4 }),
-            anim = { frames = { 117 }, fps = 1 },
+            anim = water_anim,
             update = function(me, entities)
                 me.body.vel_y += 0.2
                 if destroy_on_wall_collision(me, entities) then

@@ -1,14 +1,14 @@
 function merman_new(x, y)
+    -- animations
+    local idle_anim = anim_new({ 64 }, 1, "tall")
+    local submerge_anim_1 = anim_new({ 67 }, 1, "tall")
+    local submerge_anim_2 = anim_new({ 68 }, 8, "tall")
+    local submerged_anim = anim_new({ 69, 70 }, 6)
+    local windup_anim = anim_new({ 65 }, 1, "tall")
+    local attack_anim = anim_new({ 66 }, 1, "tall")
+    local fireball_anim = anim_new({ 85, 86 }, 6)
+
     -- constants
-    local idle_anim = { frames = { 64 }, fps = 1, tall = true }
-    local submerge_anim_1 = { frames = { 67 }, fps = 1, tall = true }
-    local submerge_anim_2 = { frames = { 68 }, fps = 8, tall = true }
-    local submerged_anim = { frames = { 69, 70 }, fps = 6 }
-    local windup_anim = { frames = { 65 }, fps = 1, tall = true }
-    local attack_anim = { frames = { 66 }, fps = 1, tall = true }
-    local fireball_anim = { frames = { 85, 86 }, fps = 6 }
-    local hitbox = hitbox_new("enemy", 5, { x = 2, y = -4, w = 6, h = 6 })
-    local hurtbox = hurtbox_new("player", 1, { x = 3, y = -2, w = 4, h = 10 })
     local idle_dur = 0.5
     local windup_dur = 0.5
     local attack_dur = 0.5
@@ -24,6 +24,8 @@ function merman_new(x, y)
     local key = tx .. "," .. ty
 
     -- state
+    local hitbox = hitbox_new("enemy", 5, { x = 2, y = -4, w = 6, h = 6 })
+    local hurtbox = hurtbox_new("player", 1, { x = 3, y = -2, w = 4, h = 10 })
     local timer = nil
 
     -- local functions

@@ -1,8 +1,10 @@
-function zombie_behavior_new()
+function zombie_new(x, y)
+    -- animations
+    local mound_anim = anim_new(23)
+    local rise_anim = anim_new(24)
+    local walk_anim = anim_new({ 25, 26 })
+
     -- constants
-    local mound_anim = { frames = { 23 }, fps = 1 }
-    local rise_anim = { frames = { 24 }, fps = 1 }
-    local walk_anim = { frames = { 25, 26 }, fps = 1 }
     local min_x_dist = 32
     local min_y_dist = 16
     local rise_dur = 0.5
@@ -13,7 +15,7 @@ function zombie_behavior_new()
 
     local state_map = {
         mound = function(me, entities)
-            local player = entities[1]        
+            local player = entities[1]
             local dx = abs(player.body.x - me.body.x)
             local dy = abs(player.body.y - me.body.y)
 
@@ -61,12 +63,8 @@ function zombie_behavior_new()
         end
     }
 
-    return state_machine_new("mound", state_map)
-end
-
-function zombie_new(x, y)
     return {
         body = body_new(x, y, 0, 0, 1, true),
-        update = zombie_behavior_new()
+        update = state_machine_new("mound", state_map)
     }
 end

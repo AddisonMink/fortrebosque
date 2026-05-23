@@ -1,9 +1,11 @@
 function demon_new(x, y)
+    -- animations
+    local inert_anim = anim_new({ 105 }, 1, "big")
+    local idle_anim = anim_new({ 73, 75 }, 1, "big")
+    local windup_anim = anim_new({ 77 }, 1, "big")
+    local fireball_anim = anim_new({ 85, 86 }, 6)
+
     -- constants
-    local inert_anim = { frames = { 105 }, fps = 1, big = true }
-    local idle_anim = { frames = { 73, 75 }, fps = 1, big = true }
-    local windup_anim = { frames = { 77 }, fps = 1, big = true }
-    local fireball_anim = { frames = { 85, 86 }, fps = 6 }
     local idle_dur = 3
     local idle_speed = 1
     local windup_dur = 0.5

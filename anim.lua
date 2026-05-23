@@ -1,4 +1,13 @@
 -- #region animation
+function anim_new(frames, fps, flag)
+    local anim = {
+        frames = type(frames) == "table" and frames or { frames },
+        fps = fps or 1
+    }
+    if flag then anim[flag] = true end
+    return anim
+end
+
 function draw_anim(a, body, hitbox)
     local n, i, s, f
     local flashing = hitbox and hitbox.invuln_timer

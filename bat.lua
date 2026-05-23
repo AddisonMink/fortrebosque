@@ -1,6 +1,9 @@
-function bat_behavior_new()
+function bat_new(x, y)
+    -- animations
+    local hang_anim = anim_new(9)
+    local fly_anim = anim_new({ 7, 8 }, 6)
+
     -- constants
-    local fly_anim = { frames = { 7, 8 }, fps = 6 }
     local x_range = 40
     local y_range = 20
     local speed = 1
@@ -32,16 +35,11 @@ function bat_behavior_new()
         end
     }
 
-    return state_machine_new("hang", state_map)
-end
-
-function bat_new(x, y)
     return {
-        body = body_new(x,y,0,0, 1, false),
+        body = body_new(x, y, 0, 0, 1, false),
         hitbox = hitbox_new("enemy", 1),
         hurtbox = hurtbox_new("player", 1, { x = 0, y = 0, w = 6, h = 6 }),
-        anim = { frames = { 9 }, fps = 1 },
-        update = bat_behavior_new()
+        anim = hang_anim,
+        update = state_machine_new("hang", state_map)
     }
 end
-

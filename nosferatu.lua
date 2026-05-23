@@ -2,15 +2,17 @@ function nosferatu_new(x, y)
     x -= 16
     y -= 40
 
+    -- animations
+    local idle_anim = anim_new({ 128, 130 }, 1, "big")
+    local rain_anim = anim_new(132, 1, "big")
+    local dive_windup_anim = anim_new(134, 1, "big")
+    local dive_anim = anim_new(136, 1, "big")
+    local inert_1_anim = anim_new(138, 1, "big")
+    local inert_2_anim = anim_new(140, 1, "big")
+    local blood_anim = anim_new({ 160, 161 }, 6)
+
     -- constants
     local origin_y = y
-    local idle_anim = { frames = { 128, 130 }, fps = 1, big = true }
-    local rain_anim = { frames = { 132 }, fps = 1, big = true }
-    local dive_windup_anim = { frames = { 134 }, fps = 1, big = true }
-    local dive_anim = { frames = { 136 }, fps = 1, big = true }
-    local inert_1_anim = { frames = { 138 }, fps = 1, big = true }
-    local inert_2_anim = { frames = { 140 }, fps = 1, big = true }
-    local blood_anim = { frames = { 160, 161 }, fps = 6 }
     local idle_dur = 3
     local rain_windup_dur = 0.25
     local rain_dur = 2

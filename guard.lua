@@ -1,10 +1,12 @@
 function guard_new(x, y)
+    -- animations
+    local walk_anim = anim_new({ 97, 98 })
+    local turn_anim = anim_new(99)
+    local windup_anim = anim_new(100)
+    local attack_anim = anim_new(101)
+    local weapon_anim = anim_new(102)
+
     -- constants
-    local walk_anim = { frames = { 97, 98 }, fps = 1 }
-    local turn_anim = { frames = { 99 }, fps = 1 }
-    local windup_anim = { frames = { 100 }, fps = 1 }
-    local attack_anim = { frames = { 101 }, fps = 1 }
-    local weapon_anim = { frames = { 102 }, fps = 1 }
     local speed = 0.125
     local attack_range = 4
     local turn_dur = 0.5

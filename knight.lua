@@ -1,8 +1,11 @@
 function knight_new(x, y)
+    -- animations
+    local walk_anim = anim_new({ 34, 35, 36, 35 }, 1, "tall")
+    local wind_up_anim = anim_new(37, 1, "tall")
+    local attack_anim = anim_new(38, 1, "tall")
+    local shockwave_anim = anim_new(2)
+
     -- constants
-    local walk_anim = { frames = { 34, 35, 36, 35 }, fps = 1, tall = true }
-    local wind_up_anim = { frames = { 37 }, fps = 1, tall = true }
-    local attack_anim = { frames = { 38 }, fps = 1, tall = true }
     local windup_dur = 0.5
     local attack_dur = 0.5
     local shockwave_step_dur = 0.1
@@ -23,7 +26,7 @@ function knight_new(x, y)
         local shock_wave = {
             body = body_new(body.x, body.y, 0, 0, body.facing, false),
             hurtbox = hurtbox_new("player", 1, { x = 0, y = 6, w = 6, h = 2 }),
-            anim = { frames = { 2 }, fps = 1, flip_x = flip_x },
+            anim = shockwave_anim,
             update = function(me, entities)
                 if timer() then
                     me.body.x += me.body.facing * 4

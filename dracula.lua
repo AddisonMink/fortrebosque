@@ -1,10 +1,12 @@
 function dracula_new(x, y)
+    -- animations
+    local inert_anim = anim_new(110, 1, "tall")
+    local idle_anim = anim_new(107, 1, "tall")
+    local windup_anim = anim_new(108, 1, "tall")
+    local attack_anim = anim_new(109, 1, "tall")
+    local fireball_anim = anim_new({ 85, 86 }, 6)
+
     -- constants
-    local inert_anim = { frames = { 110 }, fps = 1, tall = true }
-    local idle_anim = { frames = { 107 }, fps = 1, tall = true }
-    local windup_anim = { frames = { 108 }, fps = 1, tall = true }
-    local attack_anim = { frames = { 109 }, fps = 1, tall = true }
-    local fireball_anim = { frames = { 85, 86 }, fps = 6 }
     local idle_dur = 1
     local windup_dur = 0.5
     local attack_dur = 1
