@@ -5,6 +5,7 @@ TODO
 * Save/Load
 
 BUGS
+* holy water doesn't explot when landing on 1-way platforms.
 
 BALANCE
 * skeleton's aren't very dangerous

@@ -27,7 +27,7 @@ function nosferatu_new(x, y)
     local stop_y = start_y + 8 * 6
     local start_x = rx * 8 + 8
     local min_tx = 67
-    local max_tx = 76
+    local max_tx = 75
     local min_x = min_tx * 8
     local max_x = max_tx * 8
     local shockwave_step_dur = 0.05
