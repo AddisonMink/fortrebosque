@@ -3,6 +3,7 @@ TODO
 * Outro text crawl.
 * Add map, room name, enemy name to HUD.
 * Save/Load
+* Add prompts when picking up upgrades.
 
 BUGS
 * holy water doesn't explot when landing on 1-way platforms.
