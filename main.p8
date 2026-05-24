@@ -90,12 +90,12 @@ function _draw()
 	if state == "start" then
 		local title = "f o r t r e b o s q u e"
 		local title_x = 64 - (#title * 4) / 2
-		local title_y = 38
-		local x, y = 40, 64
+		local title_y = 56
+		local x, y = 40, 80
 		local cursor_y = cursor == 0 and y or y + 8
 
 		cls(1)
-		sspr(0, 100, 32, 32, 0, 0, 128, 128)
+		sspr(0, 96, 32, 32, 0, 0, 128, 128)
 		print(title, title_x + 1, title_y + 1, 2)
 		print(title, title_x, title_y, 8)
 		print("new", x, y, 7)
