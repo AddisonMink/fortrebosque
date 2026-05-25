@@ -33,22 +33,15 @@ function _init()
 	player = player_new(16, 128)
 	rx, ry = 0, 1
 
-	-- checkpoint: arbitrary
-	player.body.x += 128
-	player.body.y -= 40
-	global.mp = 1
-	global.mp_max = 1
-	global.subweapons = { "knife" }
-
 	-- checkpoint: demon
 	-- player.body.x += 128 * 3 - 32
 	-- player.body.y -= 48
 
 	-- checkpoint: dracula
-	--player.body.x += 128 * 4 - 32
-	--global.mp = 3
-	--global.mp_max = 3
-	--global.subweapons = { "knife", "axe", "water" }
+	player.body.x += 128 * 4 - 32
+	global.mp = 3
+	global.mp_max = 3
+	global.subweapons = { "knife", "axe", "water" }
 
 	room = room_map["0,1"]
 	room.init(player)
@@ -88,6 +81,12 @@ function _update()
 		cursor = 0
 		state = "start"
 		camera(0, 0)
+		global.mp = 0
+		global.mp_max = 0
+		global.subweapons = {}
+		global.subweapon_index = 1
+		global.dracula_dead = false
+		global.dont_respawn = {}
 	end
 end
 
@@ -102,8 +101,7 @@ function _draw()
 		local cursor_y = cursor == 0 and y or y + 8
 
 		cls()
-		map(112,18,0,0,16,9)
-
+		map(112, 18, 0, 0, 16, 9)
 
 		print(title, title_x, title_y, 8)
 		print("new", x, y, 7)
