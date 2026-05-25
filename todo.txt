@@ -1,4 +1,4 @@
-TODO
+CORE
 * Add victory page.
 * Add map in HUD.
 * Add controls in HUD.
@@ -7,3 +7,10 @@ TODO
 * Upload HTML to Github page.
 * Post cartridge on BBS.
 * Post cartridge on Itch.
+
+STRETCH
+* Expand map to be 23 rooms instead of 13.
+* Add fishman enemy.
+* Add imp enemy.
+* Add cross weapon.
+* Rework HP and damage.
