@@ -1,7 +1,5 @@
 CORE
 * Add victory page.
-* Add control page.
-* Create Github Repo.
 * Create Image Label.
 * Create README.
 

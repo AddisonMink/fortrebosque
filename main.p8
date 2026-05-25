@@ -52,8 +52,14 @@ function _update()
 	if state == "start" then
 		cursor = btnp(2) and 0 or btnp(3) and 1 or cursor
 
-		if btnp(5) then
+		if btnp(4) and cursor == 0 then
 			state = "play"
+		elseif btnp(4) and cursor == 1 then
+			state = "controls"
+		end
+	elseif state == "controls" then
+		if btnp(4) then
+			state = "start"
 		end
 	elseif state == "play" then
 		local result = room.update()
@@ -69,7 +75,7 @@ function _update()
 			state = "dead"
 		end
 	elseif state == "dead" then
-		if btnp(5) then
+		if btnp(4) then
 			rx, ry = 0, 1
 			room = room_map[rx .. "," .. ry]
 			player = player_new(16, 128)
@@ -104,10 +110,17 @@ function _draw()
 		map(112, 18, 0, 0, 16, 9)
 
 		print(title, title_x, title_y, 8)
-		print("new", x, y, 7)
+		print("start", x, y, 7)
 		y += 8
-		print("continue", x, y, 7)
+		print("controls", x, y, 7)
 		print("\134", x - 8, cursor_y, 8)
+		return
+	elseif state == "controls" then
+		local x, y = 20, 60
+
+		cls()
+		map(112, 18, 0, 0, 16, 9)
+		print_controls(x, y)
 		return
 	elseif state == "win" then
 		local x, y = room_position(rx, ry)
@@ -131,7 +144,7 @@ function _draw()
 
 	if state == "dead" then
 		local text = "you died"
-		local prompt = "press ❎ to continue"
+		local prompt = "🅾️ to continue"
 		local x, y = room_position(rx, ry)
 		local x1 = x + 64 - (#text * 4) / 2
 		local x2 = x + 64 - (#prompt * 4) / 2
