@@ -1,4 +1,9 @@
 TODO
-* Add a "controls" option in the start menu.
-* Add "controls" page.
 * Add victory page.
+* Add map in HUD.
+* Add controls in HUD.
+* Create Github Repo.
+* Create Image Label.
+* Upload HTML to Github page.
+* Post cartridge on BBS.
+* Post cartridge on Itch.
