@@ -33,3 +33,17 @@ end
 function room_position(rx, ry)
     return rx * 128, ry * 72
 end
+
+function print_contols(x, y)
+    print("controls", x, y, 5)
+    y += 8
+    print("❎ - aTTACK", x, y, 5)
+    y += 8
+    print("🅾️ - jUMP", x, y, 5)
+    y += 8
+    print("⬅️➡️ - mOVE", x, y, 5)
+    y += 8
+    print("⬇️ - sWITCH sUBWEAPON", x, y, 5)
+    y += 8
+    print("⬆️+❎ - sUBWEAPON", x, y, 5)
+end

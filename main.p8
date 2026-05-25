@@ -38,10 +38,10 @@ function _init()
 	-- player.body.y -= 48
 
 	-- checkpoint: dracula
-	player.body.x += 128 * 4 - 32
-	global.mp = 3
-	global.mp_max = 3
-	global.subweapons = { "knife", "axe", "water" }
+	--player.body.x += 128 * 4 - 32
+	--global.mp = 3
+	--global.mp_max = 3
+	--global.subweapons = { "knife", "axe", "water" }
 
 	room = room_map["0,1"]
 	room.init(player)

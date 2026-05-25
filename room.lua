@@ -157,13 +157,18 @@ function room_load(rx, ry)
                 x = print("\134", x, y, i <= global.mp and 12 or 1)
             end
 
-            if not global.enemy_hitbox then return end
-            x = tx * 8 + 80
-            spr(46, x, y - 1)
-            x += 7
-            for i = 1, global.enemy_hitbox.hp_max do
-                x = print("♥", x, y, i <= global.enemy_hitbox.hp and 8 or 2)
+            if global.enemy_hitbox then
+                x = tx * 8 + 80
+                spr(46, x, y - 1)
+                x += 7
+                for i = 1, global.enemy_hitbox.hp_max do
+                    x = print("♥", x, y, i <= global.enemy_hitbox.hp and 8 or 2)
+                end
             end
+
+            local x = tx * 8
+            local y = ty * 8 - 9 + 82
+            print_contols(x, y)
         end
     }
 end
