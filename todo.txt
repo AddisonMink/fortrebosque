@@ -1,6 +1,5 @@
 CORE
 * Add victory page.
-* Create Image Label.
 * Create README.
 
 STRETCH
