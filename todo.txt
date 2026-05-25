@@ -9,7 +9,6 @@ BUGS
 * holy water doesn't explot when landing on 1-way platforms.
 
 BALANCE
-* skeleton's aren't very dangerous
 * dracula's fireballs should be smaller.
 * there are safe spots in the demon room.
 * Spawn player on ground.

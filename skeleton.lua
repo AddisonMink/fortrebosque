@@ -8,12 +8,13 @@ function skeleton_new(x, y)
     -- constants
     local windup_dur = 0.5
     local attack_dur = 0.25
-    local attack_cooldown = 3
-    local weapon_y_vel = -2
-    local weapon_x_speed = 1
+    local attack_cooldown = 1
+    local weapon_y_vel = -3
+    local weapon_x_speed = 0.75
 
     -- local functions
     local function add_weapon(me, entities)
+        local timer = timer_new(5)
         local weapon = {
             body = body_new(
                 me.body.x,
@@ -27,9 +28,7 @@ function skeleton_new(x, y)
             update = function(me)
                 me.body.vel_y += 0.2
 
-                local tx, ty = body_center_tile(me.body)
-                local tile = mget(tx, ty)
-                if fget(tile, 0) then
+                if timer () then 
                     del(entities, me)
                 end
             end
