@@ -1,14 +1,4 @@
 TODO
-* Intro text crawl.
-* Outro text crawl.
-* Add map, room name, enemy name to HUD.
-* Save/Load
-* Add prompts when picking up upgrades.
-
-BUGS
-* holy water doesn't explot when landing on 1-way platforms.
-
-BALANCE
-* dracula's fireballs should be smaller.
-* there are safe spots in the demon room.
-* Spawn player on ground.
+* Add a "controls" option in the start menu.
+* Add "controls" page.
+* Add victory page.
