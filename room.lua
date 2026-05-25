@@ -47,6 +47,7 @@ function room_load(rx, ry)
                     add(entities, s.spawner(x, y))
                 end
             end
+            global.rooms_visited[rx .. "," .. ry] = { rx = rx, ry = ry }
         end,
         update = function()
             for e in all(entities) do
@@ -168,7 +169,25 @@ function room_load(rx, ry)
 
             local x = tx * 8
             local y = ty * 8 - 9 + 82
-            print_contols(x, y)
+            local width = flr(128 - 6) / 4
+            local height = 12
+            local margin = 2
+            local current_key = rx .. "," .. ry
+
+            for rx = 0, 5 do
+                for ry = 0, 5 do
+                    local key = rx .. "," .. ry
+                    if global.rooms_visited[key] then
+                        local x = x + rx * (width + margin)
+                        local y = y + ry * (height + margin)
+                        local x2 = x + width - 1
+                        local y2 = y + height - 1
+                        local color = key == current_key and 6 or 5
+                        
+                        rect(x, y, x2, y2, color)
+                    end
+                end
+            end
         end
     }
 end

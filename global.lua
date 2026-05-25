@@ -6,6 +6,7 @@ global = {
     dracula_dead = false,
     dont_respawn = {},
     lever_states = {},
+    rooms_visited = {},
 
     lever_funcs = {
         ["44,21"] = function()

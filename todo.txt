@@ -1,12 +1,8 @@
 CORE
 * Add victory page.
-* Add map in HUD.
-* Add controls in HUD.
+* Add control page.
 * Create Github Repo.
 * Create Image Label.
-* Upload HTML to Github page.
-* Post cartridge on BBS.
-* Post cartridge on Itch.
 * Create README.
 
 STRETCH
