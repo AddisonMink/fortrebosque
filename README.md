@@ -5,6 +5,8 @@
 ## About
 Fortrebosque is a Castlevania fan game made in Pico8.
 
+You can play it [here](https://addisonmink.github.io/fortrebosque/fortrebosque.html)!
+
 The game is small, but open-ended. There's 3 bosses and 3 sub-weapons to find in an interconnected castle.
 
 ![image](images/screenshot_1.png)
