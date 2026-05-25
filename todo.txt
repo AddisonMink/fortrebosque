@@ -7,6 +7,7 @@ CORE
 * Upload HTML to Github page.
 * Post cartridge on BBS.
 * Post cartridge on Itch.
+* Create README.
 
 STRETCH
 * Expand map to be 23 rooms instead of 13.
@@ -14,3 +15,7 @@ STRETCH
 * Add imp enemy.
 * Add cross weapon.
 * Rework HP and damage.
+* Add sound effects.
+* Add music.
+* Rework demon fight.
+* Add Death fight.
