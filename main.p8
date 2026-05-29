@@ -19,6 +19,23 @@ __lua__
 #include dracula.lua
 #include room.lua
 
+function begin_play(mode)
+	global.mode = mode
+
+	camera(0, 0)
+	global.mp = 0
+	global.mp_max = 0
+	global.subweapons = {}
+	global.subweapon_index = 1
+	global.dracula_dead = false
+	global.dont_respawn = {}
+	player = player_new(16, 128)
+	rx, ry = 0, 1
+	room = room_map["0,1"]
+	room.init(player)
+	state = "play"
+end
+
 function _init()
 	cursor = 0
 
@@ -30,31 +47,19 @@ function _init()
 		end
 	end
 
-	player = player_new(16, 128)
-	rx, ry = 0, 1
-
-	-- checkpoint: demon
-	-- player.body.x += 128 * 3 - 32
-	-- player.body.y -= 48
-
-	-- checkpoint: dracula
-	--player.body.x += 128 * 4 - 32
-	--global.mp = 3
-	--global.mp_max = 3
-	--global.subweapons = { "knife", "axe", "water" }
-
-	room = room_map["0,1"]
-	room.init(player)
 	state = "start"
 end
 
 function _update()
 	if state == "start" then
-		cursor = btnp(2) and 0 or btnp(3) and 1 or cursor
+		cursor += btnp(2) and -1 or btnp(3) and 1 or 0
+		cursor = mid(0, cursor, 2)
 
 		if btnp(4) and cursor == 0 then
-			state = "play"
+			begin_play("easy")
 		elseif btnp(4) and cursor == 1 then
+			begin_play("hard")
+		elseif btnp(4) and cursor == 2 then
 			state = "controls"
 		end
 	elseif state == "controls" then
@@ -104,13 +109,15 @@ function _draw()
 		local title_x = 64 - (#title * 4) / 2
 		local title_y = 56
 		local x, y = 40, 80
-		local cursor_y = cursor == 0 and y or y + 8
+		local cursor_y = y + (cursor * 8)
 
 		cls()
 		map(112, 18, 0, 0, 16, 9)
 
 		print(title, title_x, title_y, 8)
-		print("start", x, y, 7)
+		print("start (easy)", x, y, 7)
+		y += 8
+		print("start (hard)", x, y, 7)
 		y += 8
 		print("controls", x, y, 7)
 		print("\134", x - 8, cursor_y, 8)

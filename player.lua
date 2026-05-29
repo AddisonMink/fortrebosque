@@ -12,6 +12,7 @@ function player_new(x, y)
     local water_anim = anim_new(117)
 
     -- constants
+    local hp_max = global.mode == "easy" and 5 or 3
     local jump_vel = -2.1
     local attack_windup_dur = 0.25
     local attack_dur = 0.25
@@ -244,7 +245,7 @@ function player_new(x, y)
 
     return {
         body = body_new(x, y, 0, 0, 1, true),
-        hitbox = hitbox_new("player", 3, { x = 2, y = 2, w = 4, h = 4 }),
+        hitbox = hitbox_new("player", hp_max, { x = 2, y = 2, w = 4, h = 4 }),
         anim = { frames = { 16 }, fps = 1 },
         update = state_machine_new("idle", state_map),
         on_death = function(me, entities)

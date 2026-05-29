@@ -139,9 +139,11 @@ function room_load(rx, ry)
 
             local y = ty * 8 - 8
             local x = tx * 8
+            local hp = player.hitbox.hp
             x = print("hp", x + 1, y, player.hitbox.hp > 0 and 8 or 2)
-            for i = 1, player.hitbox.hp_max do
-                x = print("♥", x, y, i <= player.hitbox.hp and 8 or 2)
+            for i = 1, 3 do
+                local c = i <= (hp - 3) and 7 or i <= hp and 8 or 2
+                x = print("♥", x, y, c)
             end
             x += 2
 
@@ -183,7 +185,7 @@ function room_load(rx, ry)
                         local x2 = x + width - 1
                         local y2 = y + height - 1
                         local color = key == current_key and 6 or 5
-                        
+
                         rect(x, y, x2, y2, color)
                     end
                 end
