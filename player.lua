@@ -244,7 +244,7 @@ function player_new(x, y)
 
     return {
         body = body_new(x, y, 0, 0, 1, true),
-        hitbox = hitbox_new("player", 3),
+        hitbox = hitbox_new("player", 3, { x = 2, y = 2, w = 4, h = 4 }),
         anim = { frames = { 16 }, fps = 1 },
         update = state_machine_new("idle", state_map),
         on_death = function(me, entities)
